@@ -1,15 +1,45 @@
-"execute pathogen#infect()
-syntax on
-filetype plugin indent on
-set number
+execute pathogen#infect()
+filetype plugin on
+filetype indent on
+
+let mapleader=","
+
+colorscheme monokai
+
 set background=dark
-"color mango
-set smartindent
-set tabstop=4
-set shiftwidth=4
+set clipboard=unnamed
+set cursorline
 set expandtab
-" part of ~/.vimrc
-" " highlight tabs and trailing spaces
+set hlsearch
+set nowrap
+set number
+set shiftwidth=2
+set showmatch
+set smarttab
+set t_Co=256
+set tabstop=2
+set laststatus=2
+set ttimeoutlen=50
 set encoding=utf-8
 set list listchars=tab:→\ ,trail:·
 set list
+
+syntax enable
+
+map <C-k> :NERDTreeToggle<CR>
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
+
+let g:ctrlp_prompt_mappings = {
+    \ 'AcceptSelection("e")': ['<c-t>'],
+    \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
+    \ }
+let g:multi_cursor_next_key='<C-n>'
+let g:multi_cursor_prev_key='<C-i>'
+let g:multi_cursor_skip_key='<C-x>'
+let g:multi_cursor_quit_key='<C-c>'
+
+let g:airline_powerline_fonts=1
+let NERDTreeShowHidden=1
