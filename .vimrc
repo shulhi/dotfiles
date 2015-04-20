@@ -23,6 +23,7 @@ set ttimeoutlen=50
 set encoding=utf-8
 set list listchars=tab:→\ ,trail:·
 set list
+set mouse=a
 
 syntax enable
 

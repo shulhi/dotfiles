@@ -6,6 +6,7 @@ ZSH_THEME="gentoo-custom"
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
+# source kvm.sh
 
 # ==== ALIAS
 alias powpow="rvm env > .powenv"
@@ -16,8 +17,10 @@ export PATH="/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 export PATH="/usr/local/bin:$PATH"
 
 # java
-export JAVA_HOME=$(/usr/libexec/java_home)
-export PATH=$JAVA_HOME/bin:$PATH
+# export JAVA_HOME=$(/usr/libexec/java_home)
+# export PATH=$JAVA_HOME/bin:$PATH
+# export PATH="$HOME/.jenv/bin:$PATH"
+# eval "$(jenv init -)"
 
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
@@ -30,4 +33,4 @@ if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 
 [ -s "/Users/shulhi/.nvm/nvm.sh" ] && . "/Users/shulhi/.nvm/nvm.sh" # This loads nvm
-# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
