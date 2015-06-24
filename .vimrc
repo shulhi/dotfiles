@@ -24,14 +24,11 @@ set encoding=utf-8
 set list listchars=tab:→\ ,trail:·
 set list
 set mouse=a
+set backspace=indent,eol,start
 
 syntax enable
 
 map <C-k> :NERDTreeToggle<CR>
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
 
 let g:ctrlp_prompt_mappings = {
     \ 'AcceptSelection("e")': ['<c-t>'],
@@ -40,7 +37,22 @@ let g:ctrlp_prompt_mappings = {
 let g:multi_cursor_next_key='<C-n>'
 let g:multi_cursor_prev_key='<C-i>'
 let g:multi_cursor_skip_key='<C-x>'
-let g:multi_cursor_quit_key='<C-c>'
+let g:multi_cursor_quit_key='<Esc>'
 
 let g:airline_powerline_fonts=1
+
 let NERDTreeShowHidden=1
+let NERDTreeIgnore = ['\.swp$', '\.pyc$', '\.git$']
+
+fun! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+
+autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
+
+set updatetime=750
+set autoread
+au FocusGained,FocusLost,BufEnter,CursorHold,CursorHoldI * :silent! checktime

@@ -34,3 +34,7 @@ if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -
 
 [ -s "/Users/shulhi/.nvm/nvm.sh" ] && . "/Users/shulhi/.nvm/nvm.sh" # This loads nvm
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+source dnvm.sh
+
+# docker
+eval $(boot2docker shellinit 2>/dev/null)
