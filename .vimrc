@@ -55,4 +55,4 @@ autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 set updatetime=750
 set autoread
-au FocusGained,FocusLost,BufEnter,CursorHold,CursorHoldI * :silent! checktime
+au FocusGained,FocusLost,BufEnter,BufLeave,CursorHold,CursorHoldI * :silent! checktime
