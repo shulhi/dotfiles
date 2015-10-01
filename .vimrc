@@ -25,6 +25,7 @@ set list listchars=tab:→\ ,trail:·
 set list
 set mouse=a
 set backspace=indent,eol,start
+set foldmethod=syntax
 
 syntax enable
 

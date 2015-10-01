@@ -1,3 +1,5 @@
+export LC_ALL="en_US.UTF-8"
+export LANG="en_US.UTF-8"
 # ==== ZSH
 export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="gentoo-custom"
@@ -13,7 +15,7 @@ alias powpow="rvm env > .powenv"
 alias git-graph-all="git log --graph --decorate --all"
 
 # ==== PATH
-export PATH="/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
+export PATH="$PATH:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 export PATH="/usr/local/bin:$PATH"
 
 # java
@@ -22,11 +24,16 @@ export PATH="/usr/local/bin:$PATH"
 # export PATH="$HOME/.jenv/bin:$PATH"
 # eval "$(jenv init -)"
 
+# golang
+export GOPATH="$HOME/.go"
+export PATH="$GOPATH/bin:$PATH"
+
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/shims:$PATH"
 
 # export PATH="$HOME/.rvm/bin:$PATH"
+export ANDROID_HOME=/usr/local/opt/android-sdk
 
 # ==== PYENV
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
