@@ -1,4 +1,13 @@
-execute pathogen#infect()
+call plug#begin('~/.vim/plugged')
+
+Plug 'scrooloose/nerdtree'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'airblade/vim-gitgutter'
+Plug 'bling/vim-airline'
+Plug 'tpope/vim-fugitive'
+
+call plug#end()
+
 filetype plugin on
 filetype indent on
 
