@@ -14,6 +14,7 @@ filetype indent on
 let mapleader=","
 
 colorscheme monokai
+syntax enable
 
 set background=dark
 set clipboard=unnamed
@@ -35,8 +36,6 @@ set list
 set mouse=a
 set backspace=indent,eol,start
 set foldmethod=syntax
-
-syntax enable
 
 map <C-k> :NERDTreeToggle<CR>
 
