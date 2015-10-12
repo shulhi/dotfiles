@@ -28,8 +28,7 @@ if [[ $(uname) == 'Darwin' ]]; then
 
   # Boot2Docker
   eval $(boot2docker shellinit 2>/dev/null)
-
-elif [[ $(uname) == 'Linux']]; then
+elif [[ $(uname) == 'Linux' ]]; then
   # Pyenv
   export PYENV_ROOT="$HOME/.pyenv"
   export PATH="$PYENV_ROOT/bin:$PATH"
