@@ -25,6 +25,8 @@ if [[ $(uname) == 'Darwin' ]]; then
   # Pyenv
   export PYENV_ROOT="$HOME/.pyenv"
   export PATH="$PYENV_ROOT/shims:$PATH"
+  if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+  if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 
   # Boot2Docker
   eval $(boot2docker shellinit 2>/dev/null)
@@ -32,13 +34,13 @@ elif [[ $(uname) == 'Linux' ]]; then
   # Pyenv
   export PYENV_ROOT="$HOME/.pyenv"
   export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
 fi
 
 ## Common
 
 # Pyenv
-if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
-if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 
 # golang
 export GOPATH="$HOME/.go"
