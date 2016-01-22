@@ -14,7 +14,7 @@ alias git-graph-all="git log --graph --decorate --all"
 
 ## PATH
 export PATH="$PATH:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
-export PATH="/usr/local/bin:$PATH"
+export PATH="/usr/local/bin:$HOME/.local/bin:$PATH"
 
 ## Platform specific
 if [[ $(uname) == 'Darwin' ]]; then

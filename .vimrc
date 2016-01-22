@@ -5,6 +5,10 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'airblade/vim-gitgutter'
 Plug 'bling/vim-airline'
 Plug 'tpope/vim-fugitive'
+Plug 'eagletmt/neco-ghc'
+Plug 'Shougo/neocomplete'
+Plug 'Shougo/vimproc'
+Plug 'neovimhaskell/haskell-vim'
 
 call plug#end()
 
@@ -49,6 +53,7 @@ let g:multi_cursor_skip_key='<C-x>'
 let g:multi_cursor_quit_key='<Esc>'
 
 let g:airline_powerline_fonts=1
+let g:neocomplete#enable_at_startup = 1
 
 let NERDTreeShowHidden=1
 let NERDTreeIgnore = ['\.swp$', '\.pyc$', '\.git$']
