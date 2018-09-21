@@ -1,47 +1,49 @@
 export LC_ALL="en_US.UTF-8"
 export LANG="en_US.UTF-8"
+
 ## ZSH
 export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="gentoo-custom"
 
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-plugins=(git)
+plugins=(git bgnotify)
 
 source $ZSH/oh-my-zsh.sh
 
 ## ALIAS
 alias git-graph-all="git log --graph --decorate --all"
+alias grep-src="grep -inIEr --color=ALWAYS"
+alias vim="nvim"
+alias vimdiff='nvim -d'
+export EDITOR=nvim
 
 ## PATH
-export PATH="$PATH:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
+export PATH="/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 export PATH="/usr/local/bin:$HOME/.local/bin:$PATH"
 
-## Platform specific
-if [[ $(uname) == 'Darwin' ]]; then
-  # NVM
-  export NVM_DIR=~/.nvm
-  source $(brew --prefix nvm)/nvm.sh
+# Go
+export PATH="$PATH:/usr/local/go/bin"
+export GOPATH="$HOME/.golang"
 
-  # Pyenv
-  export PYENV_ROOT="$HOME/.pyenv"
-  export PATH="$PYENV_ROOT/shims:$PATH"
-  if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
-  if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
-
-  # Boot2Docker
-  eval $(boot2docker shellinit 2>/dev/null)
-elif [[ $(uname) == 'Linux' ]]; then
-  # Pyenv
-  export PYENV_ROOT="$HOME/.pyenv"
-  export PATH="$PYENV_ROOT/shims:$PATH"
-  eval "$(pyenv init -)"
-  eval "$(pyenv virtualenv-init -)"
-fi
-
-## Common
+# Rust
+export PATH="$HOME/.cargo/bin:$PATH"
+export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+export LD_LIBRARY_PATH="$(rustc --print sysroot)/lib"
 
 # Pyenv
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
-# golang
-export GOPATH="$HOME/.go"
-export PATH="$GOPATH/bin:$PATH"
+# GHC
+export PATH="$HOME/.cabal/bin:/opt/ghc/7.10.3/bin:$PATH"
+
+# NPM
+export PATH="$HOME/.npm-global/bin:$PATH"
+export PATH="$(yarn global bin):$PATH"
+
+
+. $HOME/.asdf/asdf.sh
+. $HOME/.asdf/completions/asdf.bash
+
+. /home/shulhi/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
