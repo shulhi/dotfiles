@@ -12,7 +12,7 @@ source $ZSH/oh-my-zsh.sh
 
 ## ALIAS
 alias git-graph-all="git log --graph --decorate --all"
-alias grep-src="grep -inIEr --color=ALWAYS"
+alias grep-src="grep -nIEr --color=ALWAYS"
 alias vim="nvim"
 alias vimdiff='nvim -d'
 export EDITOR=nvim
@@ -20,10 +20,6 @@ export EDITOR=nvim
 ## PATH
 export PATH="/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 export PATH="/usr/local/bin:$HOME/.local/bin:$PATH"
-
-# Go
-export PATH="$PATH:/usr/local/go/bin"
-export GOPATH="$HOME/.golang"
 
 # Rust
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -36,14 +32,25 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
 # GHC
-export PATH="$HOME/.cabal/bin:/opt/ghc/7.10.3/bin:$PATH"
+export PATH="$HOME/.stack/snapshots/x86_64-linux/lts-11.20/8.2.2/bin:$PATH"
+
+. /home/shulhi/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
 # NPM
-export PATH="$HOME/.npm-global/bin:$PATH"
+export N_PREFIX="$HOME/.n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
+#export PATH="$HOME/.npm-global/bin:$PATH"
 export PATH="$(yarn global bin):$PATH"
-
 
 . $HOME/.asdf/asdf.sh
 . $HOME/.asdf/completions/asdf.bash
 
-. /home/shulhi/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+        source /etc/profile.d/vte.sh
+fi
+
+# zsh
+bindkey "^P" history-beginning-search-backward
+bindkey "^N" history-beginning-search-forward
+
+source /etc/profile.d/nix.sh
