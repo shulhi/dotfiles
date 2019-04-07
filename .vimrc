@@ -16,7 +16,6 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'racer-rust/vim-racer'
   Plug 'kaicataldo/material.vim'
   Plug 'LnL7/vim-nix'
-  Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
 
   Plug 'autozimu/LanguageClient-neovim', {
       \ 'branch': 'next',
