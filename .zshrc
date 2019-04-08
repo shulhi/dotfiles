@@ -32,22 +32,23 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
 # GHC
-export PATH="$HOME/.stack/snapshots/x86_64-linux/lts-11.20/8.2.2/bin:$PATH"
+# export PATH="$HOME/.stack/snapshots/x86_64-linux/lts-11.20/8.2.2/bin:$PATH"
 
-. /home/shulhi/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+# ReasonML/Ocaml
+# . /home/shulhi/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
 # NPM
 export N_PREFIX="$HOME/.n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
 #export PATH="$HOME/.npm-global/bin:$PATH"
 export PATH="$(yarn global bin):$PATH"
 
+# ASDF
 . $HOME/.asdf/asdf.sh
 . $HOME/.asdf/completions/asdf.bash
 
-
-if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
-        source /etc/profile.d/vte.sh
-fi
+# if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+#         source /etc/profile.d/vte.sh
+# fi
 
 # zsh
 bindkey "^P" history-beginning-search-backward
