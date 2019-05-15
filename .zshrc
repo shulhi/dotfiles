@@ -55,3 +55,8 @@ bindkey "^P" history-beginning-search-backward
 bindkey "^N" history-beginning-search-forward
 
 source /etc/profile.d/nix.sh
+
+export LocalDevResultFolder=~/Plow/all/result
+export LocalDevSiteBuildFolder=~/Plow/testOnping/sitebuild
+export LocalDevDockerComposeFolder=~/Plow/testOnping/sitebuild
+export LocalDevTestingPath=~/Plow/testOnping/

@@ -57,6 +57,7 @@ set mouse=a
 set backspace=indent,eol,start
 set foldmethod=syntax
 
+set completeopt-=preview
 set completefunc=LanguageClient#complete
 let g:LanguageClient_serverCommands = {
     \ 'rust': ['~/.cargo/bin/rustup', 'run', 'nightly', 'rls'],
