@@ -3,7 +3,8 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'scrooloose/nerdtree'
   Plug 'terryma/vim-multiple-cursors'
   Plug 'airblade/vim-gitgutter'
-  Plug 'bling/vim-airline'
+  Plug 'vim-airline/vim-airline',
+  Plug 'vim-airline/vim-airline-themes',
   Plug 'tpope/vim-fugitive'
   Plug 'ctrlpvim/ctrlp.vim'
   Plug 'Shougo/vimproc.vim', {'do' : 'make'}
@@ -16,6 +17,8 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'racer-rust/vim-racer'
   Plug 'kaicataldo/material.vim'
   Plug 'LnL7/vim-nix'
+  Plug 'lervag/vimtex'
+  Plug 'purescript-contrib/purescript-vim'
 
   Plug 'autozimu/LanguageClient-neovim', {
       \ 'branch': 'next',
@@ -33,6 +36,12 @@ syntax enable
 set t_Co=256
 set background=dark
 set termguicolors
+if (has('nvim'))
+  let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
+endif
+
+
+let g:material_theme_style = 'default'
 colorscheme material
 
 set hidden
@@ -65,6 +74,17 @@ let g:LanguageClient_serverCommands = {
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources = {}
 let g:deoplete#sources.rust = ['LanguageClient']
+
+let g:vimtex_compiler_latexmk = {
+    \ 'options' : [
+    \   '-pdf',
+    \   '-pdflatex="xelatex --shell-escape %O %S"',
+    \   '-verbose',
+    \   '-file-line-error',
+    \   '-synctex=1',
+    \   '-interaction=nonstopmode',
+    \ ]
+    \}
 
 nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
@@ -102,6 +122,8 @@ set statusline+=%*
 let g:rustfmt_autosave = 1
 let g:racer_cmd = '/home/shulhi/.cargo/bin/racer'
 let g:racer_experimental_completer = 1
+
+let g:vimtex_compiler_progname = 'nvr'
 
 fun! <SID>StripTrailingWhitespaces()
     let l = line(".")

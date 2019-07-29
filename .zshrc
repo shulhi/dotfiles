@@ -15,6 +15,13 @@ alias git-graph-all="git log --graph --decorate --all"
 alias grep-src="grep -nIEr --color=ALWAYS"
 alias vim="nvim"
 alias vimdiff='nvim -d'
+
+alias plow="cd ~/Plow/all"
+alias devel="cd ~/Devel"
+alias surat="cd ~/Devel/projects/surat && nvim ."
+alias onping="cd ~/Plow/all/onping2.0 && nvim ."
+alias onpingfe="cd ~/Plow/all/re-react-onping-frontend && code ."
+
 export EDITOR=nvim
 
 ## PATH
@@ -32,7 +39,7 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
 # GHC
-# export PATH="$HOME/.stack/snapshots/x86_64-linux/lts-11.20/8.2.2/bin:$PATH"
+. $HOME/.ghcup/env
 
 # ReasonML/Ocaml
 # . /home/shulhi/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
