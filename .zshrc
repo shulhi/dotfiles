@@ -17,8 +17,12 @@ alias vim="nvim"
 alias vimdiff='nvim -d'
 
 alias plow="cd ~/Plow/all"
+alias gluon="cd ~/Devel/freelance/Gluon/src"
 alias devel="cd ~/Devel"
+alias projects="cd ~/Devel/projects"
 alias surat="cd ~/Devel/projects/surat && nvim ."
+alias peronda="cd ~/Devel/projects/peronda && nvim ."
+alias runhook="cd ~/Devel/projects/runhook && nvim ."
 alias onping="cd ~/Plow/all/onping2.0 && nvim ."
 alias onpingfe="cd ~/Plow/all/re-react-onping-frontend && code ."
 
@@ -32,6 +36,8 @@ export PATH="/usr/local/bin:$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 export LD_LIBRARY_PATH="$(rustc --print sysroot)/lib"
+
+export PATH="$PATH:/usr/local/go/bin"
 
 # Pyenv
 export PATH="$HOME/.pyenv/bin:$PATH"

@@ -18,7 +18,7 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'kaicataldo/material.vim'
   Plug 'LnL7/vim-nix'
   Plug 'lervag/vimtex'
-  Plug 'purescript-contrib/purescript-vim'
+  Plug 'reasonml-editor/vim-reason-plus'
 
   Plug 'autozimu/LanguageClient-neovim', {
       \ 'branch': 'next',
@@ -41,7 +41,7 @@ if (has('nvim'))
 endif
 
 
-let g:material_theme_style = 'default'
+let g:material_theme_style = 'darker'
 colorscheme material
 
 set hidden
@@ -70,10 +70,12 @@ set completeopt-=preview
 set completefunc=LanguageClient#complete
 let g:LanguageClient_serverCommands = {
     \ 'rust': ['~/.cargo/bin/rustup', 'run', 'nightly', 'rls'],
+    \ 'reason': ['/usr/local/bin/reason-language-server'],
     \ }
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources = {}
 let g:deoplete#sources.rust = ['LanguageClient']
+
 
 let g:vimtex_compiler_latexmk = {
     \ 'options' : [
@@ -105,6 +107,11 @@ let g:ctrlp_prompt_mappings = {
     \ }
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'a'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\.git$\|node_modules$\|deps$\|_build$\|_esy$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ }
 
 let g:airline_powerline_fonts=1
 let g:airline_theme='material'
@@ -124,6 +131,11 @@ let g:racer_cmd = '/home/shulhi/.cargo/bin/racer'
 let g:racer_experimental_completer = 1
 
 let g:vimtex_compiler_progname = 'nvr'
+
+nmap <c-c> <esc>
+imap <c-c> <esc>
+vmap <c-c> <esc>
+omap <c-c> <esc>
 
 fun! <SID>StripTrailingWhitespaces()
     let l = line(".")
