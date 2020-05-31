@@ -17,12 +17,9 @@ alias vim="nvim"
 alias vimdiff='nvim -d'
 
 alias plow="cd ~/Plow/all"
-alias gluon="cd ~/Devel/freelance/Gluon/src"
 alias devel="cd ~/Devel"
 alias projects="cd ~/Devel/projects"
-alias surat="cd ~/Devel/projects/surat && nvim ."
 alias peronda="cd ~/Devel/projects/peronda && nvim ."
-alias runhook="cd ~/Devel/projects/runhook && nvim ."
 alias onping="cd ~/Plow/all/onping2.0 && nvim ."
 alias onpingfe="cd ~/Plow/all/re-react-onping-frontend && code ."
 
@@ -33,35 +30,33 @@ export PATH="/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 export PATH="/usr/local/bin:$HOME/.local/bin:$PATH"
 
 # Rust
-export PATH="$HOME/.cargo/bin:$PATH"
-export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
-export LD_LIBRARY_PATH="$(rustc --print sysroot)/lib"
+# export PATH="$HOME/.cargo/bin:$PATH"
+# export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+# export LD_LIBRARY_PATH="$(rustc --print sysroot)/lib"
 
-export PATH="$PATH:/usr/local/go/bin"
+# Python
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
 
-# Pyenv
-export PATH="$HOME/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-
-# GHC
-. $HOME/.ghcup/env
-
-# ReasonML/Ocaml
-# . /home/shulhi/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
 
 # NPM
-export N_PREFIX="$HOME/.n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
-#export PATH="$HOME/.npm-global/bin:$PATH"
 export PATH="$(yarn global bin):$PATH"
 
 # ASDF
 . $HOME/.asdf/asdf.sh
 . $HOME/.asdf/completions/asdf.bash
 
-# if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
-#         source /etc/profile.d/vte.sh
-# fi
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+  source /etc/profile.d/vte.sh
+fi
+
+. $HOME/.local/share/lscolors.sh
+
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-vcs -g "!{**/node_modules,.git,dist-newstyle,*.cmj,*.cmi,*.cmt,_build,.elixir_ls,priv/static,deps}"'
+export BAT_THEME="Solarized (dark)"
 
 # zsh
 bindkey "^P" history-beginning-search-backward

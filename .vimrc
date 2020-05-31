@@ -6,25 +6,21 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'vim-airline/vim-airline',
   Plug 'vim-airline/vim-airline-themes',
   Plug 'tpope/vim-fugitive'
-  Plug 'ctrlpvim/ctrlp.vim'
-  Plug 'Shougo/vimproc.vim', {'do' : 'make'}
   Plug 'neovimhaskell/haskell-vim'
   Plug 'elixir-editors/vim-elixir'
-  Plug 'slashmili/alchemist.vim'
-  Plug 'mhinz/vim-mix-format'
   Plug 'hdima/python-syntax'
   Plug 'rust-lang/rust.vim'
   Plug 'racer-rust/vim-racer'
-  Plug 'kaicataldo/material.vim'
   Plug 'LnL7/vim-nix'
   Plug 'lervag/vimtex'
   Plug 'reasonml-editor/vim-reason-plus'
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-  Plug 'autozimu/LanguageClient-neovim', {
-      \ 'branch': 'next',
-      \ 'do': 'bash install.sh',
-      \ }
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  " Themes
+  Plug 'kaicataldo/material.vim'
+  Plug 'gruvbox-community/gruvbox'
 
 call plug#end()
 
@@ -40,9 +36,9 @@ if (has('nvim'))
   let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
 endif
 
-
-let g:material_theme_style = 'darker'
-colorscheme material
+" let g:material_theme_style = 'darker'
+let g:gruvbox_invert_selection=0
+colorscheme gruvbox
 
 set hidden
 set clipboard=unnamed
@@ -65,16 +61,8 @@ set list
 set mouse=a
 set backspace=indent,eol,start
 set foldmethod=syntax
-
-set completeopt-=preview
-set completefunc=LanguageClient#complete
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'nightly', 'rls'],
-    \ 'reason': ['/usr/local/bin/reason-language-server'],
-    \ }
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources = {}
-let g:deoplete#sources.rust = ['LanguageClient']
+set signcolumn=yes
+set colorcolumn=120
 
 
 let g:vimtex_compiler_latexmk = {
@@ -88,42 +76,64 @@ let g:vimtex_compiler_latexmk = {
     \ ]
     \}
 
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+"Coc
 
-let g:python3_host_prog='/home/shulhi/.pyenv/versions/py3/bin/python'
-"let g:python3_host_prog='/usr/bin/python3'
+" use <tab> for trigger completion and navigate to the next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
+
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+
+command! -nargs=0 Format :call CocActionAsync('format')
+nmap <silent> <leader>f :call CocActionAsync('format')<CR>
+
+inoremap <silent><expr> <leader><space> coc#refresh()
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Fzf
+nnoremap <silent> <C-p> :Files<CR>
+
+" Fugitive
+nnoremap <silent> <leader>gs :Gstatus<CR>
+
+nnoremap <leader>h :wincmd h<CR>
+nnoremap <leader>j :wincmd j<CR>
+nnoremap <leader>k :wincmd k<CR>
+nnoremap <leader>l :wincmd l<CR>
+
+let g:python3_host_prog='/home/shulhi/.pyenv/versions/3.8.2/bin/python'
 let g:loaded_python_provider = 1
 
 let g:multi_cursor_next_key='<C-n>'
 let g:multi_cursor_prev_key='<C-i>'
 let g:multi_cursor_skip_key='<C-x>'
-let g:multi_cursor_quit_key='<Esc>'
-
-let g:ctrlp_prompt_mappings = {
-    \ 'AcceptSelection("e")': ['<c-t>'],
-    \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
-    \ }
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_working_path_mode = 'a'
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\.git$\|node_modules$\|deps$\|_build$\|_esy$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ }
+let g:multi_cursor_quit_key='<C-c>'
 
 let g:airline_powerline_fonts=1
-let g:airline_theme='material'
-
-let g:mix_format_on_save = 1
 
 map <C-k> :NERDTreeToggle<CR>
+nnoremap <silent> <leader>nf :NERDTreeFind<CR>
 let NERDTreeShowHidden=1
+let NERDTreeQuitOnOpen=1
 let NERDTreeIgnore = ['\.swp$', '\.pyc$', '\.git$']
 
 set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 let g:rustfmt_autosave = 1
@@ -145,9 +155,8 @@ fun! <SID>StripTrailingWhitespaces()
 endfun
 
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
-au BufRead,BufNewFile *.go set filetype=go
 
-set updatetime=750
+set updatetime=200
 set autoread
 au FocusGained,FocusLost,BufEnter,BufLeave,CursorHold,CursorHoldI * :silent! checktime
 au BufRead,BufWinEnter * normal zR
