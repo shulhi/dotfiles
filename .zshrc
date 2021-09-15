@@ -61,9 +61,10 @@ bindkey "^N" history-beginning-search-forward
 source /etc/profile.d/nix.sh
 
 export LocalDevResultFolder=~/Plow/all/result
-export LocalDevSiteBuildFolder=~/Plow/testOnping/sitebuild
-export LocalDevDockerComposeFolder=~/Plow/testOnping/sitebuild
-export LocalDevTestingPath=~/Plow/testOnping/
+export LocalDevSiteBuildFolder=~/Plow/plow-configs/local-dev-testing/sitebuild
+export LocalDevDockerComposeFolder=~/Plow/plow-configs/local-dev-testing/sitebuild
+export LocalDevTestingPath=~/Plow/plow-configs/local-dev-testing
+
 [ -f "/home/shulhi/.ghcup/env" ] && source "/home/shulhi/.ghcup/env" # ghcup-env
 
 autoload -U +X bashcompinit && bashcompinit
