@@ -41,16 +41,7 @@ opt.listchars = {
 opt.updatetime = 200
 opt.autoread = true
 
--- status line
--- set statusline+=%#warningmsg#
--- set statusline+=%*
-
-
 vim.g.mapleader = " "
-
-vim.g.ormolu_options = { "--stdin-input-file . " }
-
-vim.g.airline_powerline_fonts = 1
 
 vim.api.nvim_set_keymap("n", ";", ":", { noremap = true })
 

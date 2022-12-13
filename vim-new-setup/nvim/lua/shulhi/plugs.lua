@@ -2,21 +2,24 @@ local Plug = vim.fn['plug#']
 
 vim.call('plug#begin', '~/.config/nvim/new_setup/nvim/plugged')
 
+-- Tree pane
 Plug 'nvim-tree/nvim-tree.lua'
 Plug 'nvim-tree/nvim-web-devicons'
+
 Plug 'terryma/vim-multiple-cursors'
 Plug 'airblade/vim-gitgutter'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'sheerun/vim-polyglot'
 Plug('junegunn/fzf', { ['do'] = vim.fn["fzf#install"] })
 Plug 'junegunn/fzf.vim'
-Plug 'sdiehl/vim-ormolu'
 Plug 'rescript-lang/vim-rescript'
 
+-- Formatter that doesn't depend on LSP
 Plug 'mhartington/formatter.nvim'
+
+-- Status line
+Plug 'nvim-lualine/lualine.nvim'
 
 -- Telescope
 Plug 'nvim-lua/plenary.nvim'
@@ -39,6 +42,8 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'onsails/lspkind-nvim'
+-- Make it prettyyy
+Plug('glepnir/lspsaga.nvim', { ['branch'] = 'main' })
 
 -- themes
 Plug 'gruvbox-community/gruvbox'
