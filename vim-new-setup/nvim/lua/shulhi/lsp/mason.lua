@@ -1,6 +1,7 @@
 require("mason").setup()
 require("mason-lspconfig").setup()
 
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local lsp = vim.api.nvim_create_augroup("LSP", { clear = true })
 
 -- Elixir
@@ -16,9 +17,9 @@ vim.api.nvim_create_autocmd("FileType", {
             -- format on save using LSP's formatter
             on_attach = function(client, bufnr)
               if client.supports_method("textDocument/formatting") then
-                vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+                vim.api.nvim_clear_autocmds({ group = lsp, buffer = bufnr })
                 vim.api.nvim_create_autocmd("BufWritePre", {
-                  group = augroup,
+                  group = lsp,
                   buffer = bufnr,
                   callback = function()
                     vim.lsp.buf.format()
@@ -26,6 +27,7 @@ vim.api.nvim_create_autocmd("FileType", {
                 })
               end
             end,
+            capabilities = capabilities,
         })
     end,
 })
@@ -49,9 +51,9 @@ vim.api.nvim_create_autocmd("FileType", {
             -- format on save using LSP's formatter
             on_attach = function(client, bufnr)
               if client.supports_method("textDocument/formatting") then
-                vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+                vim.api.nvim_clear_autocmds({ group = lsp, buffer = bufnr })
                 vim.api.nvim_create_autocmd("BufWritePre", {
-                  group = augroup,
+                  group = lsp,
                   buffer = bufnr,
                   callback = function()
                     vim.lsp.buf.format()
@@ -59,6 +61,11 @@ vim.api.nvim_create_autocmd("FileType", {
                 })
               end
             end,
+            on_error = function(code, params)
+              print(vim.inspect(code))
+              print(vim.inspect(params))
+            end,
+            capabilities = capabilities,
         })
     end,
 })
