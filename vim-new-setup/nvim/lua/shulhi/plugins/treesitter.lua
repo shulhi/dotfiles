@@ -12,3 +12,11 @@ require('nvim-treesitter.configs').setup {
     disable = { },
   },
 }
+
+-- vim.api.nvim_create_augroup("cmdwin_treesitter", { clear = true })
+-- vim.api.nvim_create_autocmd("CmdwinEnter", {
+--   pattern = "*",
+--   command = "TSBufDisable incremental_selection",
+--   group = "cmdwin_treesitter",
+--   desc = "Disable treesitter's incremental selection in Command-line window",
+-- })

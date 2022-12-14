@@ -56,3 +56,10 @@ vim.api.nvim_set_keymap("n", "<leader>h", ":wincmd h<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>j", ":wincmd j<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>k", ":wincmd k<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>l", ":wincmd l<CR>", { noremap = true })
+
+vim.cmd[[
+au TabLeave * let g:lasttab = tabpagenr()
+]]
+
+vim.api.nvim_set_keymap("n", "<C-l>", ':exe "tabn ".g:lasttab<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "<C-l>", ':exe "tabn ".g:lasttab<CR>', { noremap = true, silent = true })

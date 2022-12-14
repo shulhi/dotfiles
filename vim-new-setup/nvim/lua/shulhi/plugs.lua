@@ -7,7 +7,7 @@ Plug 'nvim-tree/nvim-tree.lua'
 Plug 'nvim-tree/nvim-web-devicons'
 
 Plug 'terryma/vim-multiple-cursors'
-Plug 'airblade/vim-gitgutter'
+Plug 'lewis6991/gitsigns.nvim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'sheerun/vim-polyglot'
@@ -30,20 +30,25 @@ Plug('nvim-treesitter/nvim-treesitter', {['do'] = vim.fn[':TSUpdate']})
 Plug 'nkrkv/nvim-treesitter-rescript'
 
 
--- LSP
-Plug 'neovim/nvim-lspconfig'
-Plug 'williamboman/mason-lspconfig.nvim'
-Plug 'williamboman/mason.nvim'
+-- Either use native LSP or COC.
+-- Comment/Uncomment accordingly
+--
+-- Native LSP
+--Plug 'neovim/nvim-lspconfig'
+--Plug 'williamboman/mason-lspconfig.nvim'
+--Plug 'williamboman/mason.nvim'
+-- Auto complete for native LSP
+--Plug 'hrsh7th/cmp-buffer'
+--Plug 'hrsh7th/cmp-path'
+--Plug 'hrsh7th/cmp-cmdline'
+--Plug 'hrsh7th/cmp-nvim-lsp'
+--Plug 'hrsh7th/nvim-cmp'
+--Plug 'onsails/lspkind-nvim'
+-- Improve LSP UI
+--Plug('glepnir/lspsaga.nvim', { ['branch'] = 'main' })
 
--- Auto complete
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-cmdline'
-Plug 'hrsh7th/nvim-cmp'
-Plug 'onsails/lspkind-nvim'
--- Make it prettyyy
-Plug('glepnir/lspsaga.nvim', { ['branch'] = 'main' })
+-- CoC.nvim
+Plug('neoclide/coc.nvim', { ['branch'] = 'release' })
 
 -- themes
 Plug 'gruvbox-community/gruvbox'

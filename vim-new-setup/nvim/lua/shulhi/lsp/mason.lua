@@ -1,7 +1,7 @@
 require("mason").setup()
 require("mason-lspconfig").setup()
 
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
+--local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local lsp = vim.api.nvim_create_augroup("LSP", { clear = true })
 
 -- Elixir
@@ -27,7 +27,7 @@ vim.api.nvim_create_autocmd("FileType", {
                 })
               end
             end,
-            capabilities = capabilities,
+            --capabilities = capabilities,
         })
     end,
 })
@@ -65,7 +65,7 @@ vim.api.nvim_create_autocmd("FileType", {
               print(vim.inspect(code))
               print(vim.inspect(params))
             end,
-            capabilities = capabilities,
+            --capabilities = capabilities,
         })
     end,
 })

@@ -12,15 +12,15 @@ require('lualine').setup {
     always_divide_middle = true,
     globalstatus = false,
     refresh = {
-      statusline = 1000,
+      statusline = 500,
       tabline = 1000,
       winbar = 1000,
     }
   },
   sections = {
     lualine_a = {'mode'},
-    lualine_b = {'branch', 'diff', 'diagnostics'},
-    lualine_c = {'filename'},
+    lualine_b = {'branch', 'diff', {'diagnostics', sources = {'coc'}}},
+    lualine_c = {'filename', 'coc#status'},
     lualine_x = {'encoding', 'fileformat', 'filetype'},
     lualine_y = {'progress'},
     lualine_z = {'location'}
@@ -28,7 +28,7 @@ require('lualine').setup {
   inactive_sections = {
     lualine_a = {},
     lualine_b = {},
-    lualine_c = {'filename'},
+    lualine_c = {'filename', 'coc#status'},
     lualine_x = {'location'},
     lualine_y = {},
     lualine_z = {}
@@ -38,3 +38,7 @@ require('lualine').setup {
   inactive_winbar = {},
   extensions = {}
 }
+
+vim.cmd([[
+  autocmd User CocStatusChange redrawstatus
+]])
