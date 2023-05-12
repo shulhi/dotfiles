@@ -1,0 +1,20 @@
+{
+  "coc.preferences.jumpCommand": "tab drop",
+  "coc.preferences.formatOnSaveFiletypes": ["reason", "elixir", "rescript"],
+  "languageserver": {
+    "rescript": {
+      "enable": true,
+      "module": "/home/shulhi/.local/share/nvim/plugged/vim-rescript/server/out/server.js",
+      "args": ["--node-ipc"],
+      "filetypes": ["rescript"],
+      "rootPatterns": ["bsconfig.json"]
+    },
+    "ocaml-lsp": {
+      "command": "opam",
+      "args": ["config", "exec", "--", "ocamllsp"],
+      "filetypes": ["ocaml", "reason"]
+    }
+  }
+}
+
+

@@ -15,7 +15,6 @@ source $ZSH/oh-my-zsh.sh
 ## ALIAS
 alias git-graph-all="git log --graph --decorate --all"
 alias grep-src="grep -nIEr --color=ALWAYS"
-alias nvim2="XDG_CONFIG_HOME=/home/shulhi/.config/nvim/new_setup nvim"
 alias vim="nvim"
 alias vimdiff='nvim -d'
 
