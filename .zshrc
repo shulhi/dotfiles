@@ -36,14 +36,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 # export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 # export LD_LIBRARY_PATH="$(rustc --print sysroot)/lib"
 
-# Python
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-export PATH="$PYENV_ROOT/shims:$PATH"
-
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
+export PATH=$PATH:/usr/local/go/bin
 
 # NPM
 # export PATH="$(yarn global bin):$PATH"
@@ -62,12 +55,14 @@ bindkey "^N" history-beginning-search-forward
 
 source /etc/profile.d/nix.sh
 
+export PATH="/nix/var/nix/profiles/default/bin:$PATH"
+
 export LocalDevResultFolder=~/Plow/all/result
 export LocalDevSiteBuildFolder=~/Plow/plow-configs/local-dev-testing/sitebuild
 export LocalDevDockerComposeFolder=~/Plow/plow-configs/local-dev-testing/sitebuild
 export LocalDevTestingPath=~/Plow/plow-configs/local-dev-testing
 
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+export JAVA_HOME=/usr/lib/jvm/java-20-openjdk-amd64
 
 #[ -f "/home/shulhi/.ghcup/env" ] && source "/home/shulhi/.ghcup/env" # ghcup-env
 
@@ -75,9 +70,14 @@ autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/bin/terraform terraform
 source <(kubectl completion zsh)
 
+export FLYCTL_INSTALL="/home/shulhi/.fly"
+export PATH="$FLYCTL_INSTALL/bin:$PATH"
+
 #[ -f "/home/shulhi/.ghcup/env" ] && source "/home/shulhi/.ghcup/env" # ghcup-env
 
 # opam configuration
 [[ ! -r /home/shulhi/.opam/opam-init/init.zsh ]] || source /home/shulhi/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
 
 [ -f "/home/shulhi/.ghcup/env" ] && source "/home/shulhi/.ghcup/env" # ghcup-env
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

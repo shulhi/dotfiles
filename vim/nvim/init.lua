@@ -61,5 +61,27 @@ vim.cmd[[
 au TabLeave * let g:lasttab = tabpagenr()
 ]]
 
+vim.cmd[[
+au BufRead,BufNewFile *.res set filetype=rescript
+au BufRead,BufNewFile *.resi set filetype=rescript
+]]
+
 vim.api.nvim_set_keymap("n", "<C-l>", ':exe "tabn ".g:lasttab<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap("v", "<C-l>", ':exe "tabn ".g:lasttab<CR>', { noremap = true, silent = true })
+
+-- Lazy vim
+
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+require("lazy").setup("plugins")
