@@ -66,10 +66,6 @@ return {
         },
         extensions = {}
       }
-
-      vim.cmd([[
-        autocmd User CocStatusChange redrawstatus
-      ]])
     end
   }
 }

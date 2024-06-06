@@ -15,7 +15,9 @@ if [ "$theme" = "dark" ]; then
   kitty +kitten themes --reload-in=all Gruvbox Dark Hard
   echo 'dark' > "$HOME/.theme"
 else
-  kitty +kitten themes --reload-in=all One Half Light
+  # kitty +kitten themes --reload-in=all One Half Light
+  kitty +kitten themes --cache-age=0 --reload-in=all Catppuccin Kitty Latte
+  # kitty +kitten themes --cache-age=0 --reload-in=all Tokyo Night Day
   echo 'light' > "$HOME/.theme"
 fi
 

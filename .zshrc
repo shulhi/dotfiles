@@ -24,6 +24,13 @@ alias devel="cd ~/Devel"
 alias projects="cd ~/Devel/projects"
 alias onping="cd ~/Plow/all/onping2.0 && nvim ."
 alias rrof="cd ~/Plow/all/re-react-onping-frontend && nvim ."
+# File system
+export EXA_COLORS="$(vivid generate solarized-light)"
+export EXA_COLORS="oc=0"
+alias ls='eza -lh -o --icons=never --group-directories-first --time-style="+%Y-%m-%d %H:%M" -r -s modified'
+alias lsa='ls -a'
+alias lt='eza --tree --level=2 --long --icons --git'
+alias lta='lt -a'
 
 export EDITOR=nvim
 
@@ -45,7 +52,7 @@ export PATH=$PATH:/usr/local/go/bin
 . $HOME/.asdf/asdf.sh
 . $HOME/.asdf/completions/asdf.bash
 
-. $HOME/.local/share/lscolors.sh
+# . $HOME/.local/share/lscolors.sh
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-vcs -g "!{**/node_modules,.git,**/dist-newstyle,**/*.cmj,**/*.cmi,**/*.cmt,**/lib/bs,**/lib/js,**/dist/build,_build,.elixir_ls,priv/static,deps}"'
 

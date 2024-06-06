@@ -1,14 +1,15 @@
 return {
+  { "catppuccin/nvim", name = "catppuccin", 
+    lazy = false,
+    priority = 1000 
+  },
   {
-    "sonph/onehalf",
-    config = function(plugin)
-      vim.opt.rtp:append(plugin.dir .. "/vim")
-    end
+    "savq/melange-nvim"
   },
   {
     "gruvbox-community/gruvbox",
-    dependencies = { "sonph/onehalf" },
     lazy = false,
+    priority = 1000,
     config = function() 
       vim.opt.termguicolors = true
       local uv = vim.loop
@@ -42,14 +43,12 @@ return {
         read_file(themepath, vim.schedule_wrap(function(data)
           if trim6(data) == 'light' then
             vim.opt.background = 'light'
-            vim.cmd("colorscheme onehalflight")
-            vim.cmd("redraw!")
+            vim.cmd("colorscheme catppuccin")
           else
             vim.opt.background = 'dark'
             vim.g.gruvbox_contrast_dark = "hard"
             vim.g.gruvbox_invert_selection = true
             vim.cmd("colorscheme gruvbox")
-            vim.cmd("redraw!")
           end
         end))
       end

@@ -10,11 +10,6 @@ return {
       vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#282C34", fg = "NONE" })
       vim.api.nvim_set_hl(0, "Pmenu", { fg = "#C5CDD9", bg = "#22252A" })
 
-      vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { fg = "#7E8294", bg = "NONE", strikethrough = true })
-      vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { fg = "#82AAFF", bg = "NONE", bold = true })
-      vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { fg = "#82AAFF", bg = "NONE", bold = true })
-      vim.api.nvim_set_hl(0, "CmpItemMenu", { fg = "#C792EA", bg = "NONE", italic = true })
-
       local cmp = require("cmp")
 
       local kind_icons = {
@@ -48,10 +43,15 @@ return {
       cmp.setup({
         window = {
           completion = {
-            winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+            winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None,CursorLine:PmenuSel",
             col_offset = -3,
             side_padding = 0,
           },
+        },    
+        snippet = {
+          expand = function(args)
+            require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+          end,
         },
         mapping = cmp.mapping.preset.insert({
           ['<C-b>'] = cmp.mapping.scroll_docs(-4),
@@ -81,10 +81,10 @@ return {
               nvim_lua = "[Lua]",
               latex_symbols = "[LaTeX]",
             })[entry.source.name]
-            kind.kind = " " .. (strings[1] or "") .. " "
-            kind.menu = "    (" .. (strings[2] or "") .. ")" .. " " .. (source)
+            vim_item.kind = " " .. (strings[1] or "") .. " "
+            vim_item.menu = "    (" .. (strings[2] or "") .. ")" .. " " .. (source)
 
-            return kind
+            return vim_item
           end,
         },
       })

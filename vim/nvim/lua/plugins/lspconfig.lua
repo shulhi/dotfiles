@@ -5,6 +5,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     "rescript-lang/vim-rescript",
     "elixir-tools/elixir-tools.nvim",
+    "mrcjkb/rustaceanvim",
   },
   config = function()
     local elixir = require("elixir")
@@ -18,6 +19,13 @@ return {
     ]]
 
     lspconfig.rescriptls.setup({
+      init_options = {
+        extensionConfiguration = {
+          incrementalTypecheking = {
+            enabled = true
+          }
+        }
+      },
       -- format on save using LSP's formatter
       on_attach = function(client, bufnr)
         if client.supports_method("textDocument/formatting") then
