@@ -8,7 +8,8 @@ return {
   },
   {
     "williamboman/mason-lspconfig.nvim",
-    lazy = false,
+    lazy = true,
+    events = {"BufEnter", "BufInsert"},
     dependencies = { "williamboman/mason.nvim" },
     config = function()
       require("mason-lspconfig").setup()

@@ -7,7 +7,7 @@ return {
     "savq/melange-nvim",
     lazy = false,
     priority = 1000, 
-    disabled = true
+    enabled = false
   },
   {
     "gruvbox-community/gruvbox",

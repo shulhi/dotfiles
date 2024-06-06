@@ -3,9 +3,9 @@ return {
   dependencies = { 
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
-    "rescript-lang/vim-rescript",
-    "elixir-tools/elixir-tools.nvim",
-    "mrcjkb/rustaceanvim",
+    {"rescript-lang/vim-rescript", ft = {"rescript"}},
+    {"elixir-tools/elixir-tools.nvim", ft = {"elixir"}},
+    {"mrcjkb/rustaceanvim", ft = {"rust"}}
   },
   config = function()
     local elixir = require("elixir")
