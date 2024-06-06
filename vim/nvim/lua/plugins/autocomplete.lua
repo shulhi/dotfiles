@@ -5,6 +5,7 @@ return {
   "hrsh7th/cmp-nvim-lsp",
   {
     "hrsh7th/nvim-cmp",
+    event = {'BufReadPre', 'BufNewFile'},
     dependencies = { "onsails/lspkind-nvim" },
     config = function()
       vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#282C34", fg = "NONE" })

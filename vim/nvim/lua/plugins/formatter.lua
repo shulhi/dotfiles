@@ -1,7 +1,7 @@
 return {
   "mhartington/formatter.nvim",
   lazy = true,
-  events = "BufWritePre",
+  event = "BufWritePre",
   config = function()
     -- Utilities for creating configurations
     local util = require('formatter.util')
