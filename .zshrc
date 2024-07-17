@@ -35,7 +35,7 @@ alias lta='lt -a'
 export EDITOR=nvim
 
 ## PATH
-export PATH="/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
+export PATH="$PATH:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 export PATH="/usr/local/bin:$HOME/.local/bin:$PATH"
 
 # Rust
@@ -59,10 +59,6 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-vcs -g "!{*
 # zsh
 bindkey "^P" history-beginning-search-backward
 bindkey "^N" history-beginning-search-forward
-
-source /etc/profile.d/nix.sh
-
-export PATH="/nix/var/nix/profiles/default/bin:$PATH"
 
 export LocalDevResultFolder=~/Plow/all/result
 export LocalDevSiteBuildFolder=~/Plow/plow-configs/local-dev-testing/sitebuild
@@ -88,3 +84,5 @@ export PATH="$FLYCTL_INSTALL/bin:$PATH"
 [ -f "/home/shulhi/.ghcup/env" ] && source "/home/shulhi/.ghcup/env" # ghcup-env
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# eval "$(starship init zsh)"

@@ -14,12 +14,19 @@ fi
 if [ "$theme" = "dark" ]; then
   kitty +kitten themes --reload-in=all Gruvbox Dark Hard
   echo 'dark' > "$HOME/.theme"
+  gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 else
   # kitty +kitten themes --reload-in=all One Half Light
   kitty +kitten themes --cache-age=0 --reload-in=all Catppuccin Kitty Latte
   # kitty +kitten themes --cache-age=0 --reload-in=all Tokyo Night Day
   echo 'light' > "$HOME/.theme"
+  gsettings set org.gnome.desktop.interface color-scheme 'prefer-light'
 fi
+
+gsettings set org.gnome.desktop.background picture-uri /home/shulhi/Pictures/desert-sands-day.png
+gsettings set org.gnome.desktop.background picture-uri-dark /home/shulhi/Pictures/desert-sands-night.png
+# gsettings set org.gnome.desktop.background picture-uri /home/shulhi/Pictures/macOS-Sequoia-Helios-Light.jpg
+# gsettings set org.gnome.desktop.background picture-uri-dark /home/shulhi/Pictures/macOS-Sequoia-Helios-Dark.jpg
 
 # DARK_THEME="$HOME/.kitty-themes/themes/OneHalfDark.conf"
 # LIGHT_THEME="$HOME/.kitty-themes/themes/OneHalfLight.conf"
