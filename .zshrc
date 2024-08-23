@@ -1,6 +1,6 @@
 export LC_ALL="en_US.UTF-8"
 export LANG="en_US.UTF-8"
-export NINJA_ANSI_FORCED=1
+export NINJA_ANSI_FORCED=0
 export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
 
 ## ZSH
@@ -11,6 +11,7 @@ ZSH_THEME="gentoo-custom"
 plugins=(git bgnotify)
 
 source $ZSH/oh-my-zsh.sh
+# eval "$(starship init zsh)"
 
 ## ALIAS
 alias git-graph-all="git log --graph --decorate --all"
@@ -84,5 +85,3 @@ export PATH="$FLYCTL_INSTALL/bin:$PATH"
 [ -f "/home/shulhi/.ghcup/env" ] && source "/home/shulhi/.ghcup/env" # ghcup-env
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# eval "$(starship init zsh)"
