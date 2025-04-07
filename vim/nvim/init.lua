@@ -20,8 +20,6 @@ opt.wrap = false
 
 opt.hidden = true
 
--- clipboard
-opt.clipboard:append("unnamed")
 opt.cursorline = true
 opt.hlsearch = true
 opt.showmatch = true

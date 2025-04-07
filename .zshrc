@@ -40,7 +40,7 @@ export PATH="$PATH:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 export PATH="/usr/local/bin:$HOME/.local/bin:$PATH"
 
 # Rust
-export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$HOME/.cabal/bin:$PATH"
 # export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 # export LD_LIBRARY_PATH="$(rustc --print sysroot)/lib"
 
