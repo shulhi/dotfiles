@@ -1,8 +1,6 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    lazy = true,
-    events = {"BufEnter"},
     ["do"] = ":TSUpdate",
     config = function()
       require('nvim-treesitter.configs').setup {
@@ -10,7 +8,6 @@ return {
           "elixir",
           "heex",
           "eex",
-          "rescript",
           "lua",
           "haskell"
         },
@@ -25,7 +22,6 @@ return {
   },
   {
     "nkrkv/nvim-treesitter-rescript",
-    lazy = true,
     ft = {"rescript"},
     dependencies = { "nvim-treesitter/nvim-treesitter" },
   }

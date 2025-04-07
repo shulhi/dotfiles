@@ -1,3 +1,4 @@
+local os_name = jit.os
 local uv = vim.loop
 
 function trim6(s)
@@ -23,7 +24,11 @@ end
 
 local M = {}
 
-M.themepath = "/home/shulhi/.theme"
+if os_name == "OSX" then
+  M.themepath = "/Users/shulhi/.theme"
+else
+  M.themepath = "/home/shulhi/.theme"
+end
 
 function M.adjust_theme()
   local themepath = M.themepath
