@@ -42,6 +42,8 @@ opt.listchars = {
 
 opt.updatetime = 200
 opt.autoread = true
+opt.clipboard = "unnamedplus"
+vim.g.clipboard = "osc52"
 
 vim.g.mapleader = " "
 

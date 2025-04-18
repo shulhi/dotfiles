@@ -18,6 +18,7 @@ alias git-graph-all="git log --graph --decorate --all"
 alias grep-src="grep -nIEr --color=ALWAYS"
 alias vim="nvim"
 alias vimdiff='nvim -d'
+alias vbm="VBoxManage"
 
 alias notes="cd ~/notes && nvim index.md"
 alias plow="cd ~/Plow/all"
