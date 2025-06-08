@@ -5,13 +5,12 @@ export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
 
 ## ZSH
 export ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="gentoo-custom"
+# ZSH_THEME="gentoo-custom"
 
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 plugins=(git bgnotify)
 
 source $ZSH/oh-my-zsh.sh
-# eval "$(starship init zsh)"
 
 ## ALIAS
 alias git-graph-all="git log --graph --decorate --all"
@@ -41,6 +40,11 @@ export PATH="/usr/local/bin:$HOME/.local/bin:$PATH"
 
 # Rust
 export PATH="$HOME/.cargo/bin:$HOME/.cabal/bin:$PATH"
+. "$HOME/.cargo/env"
+
+# ASDF
+# . $HOME/.asdf/asdf.sh
+# . $HOME/.asdf/completions/asdf.bash
 # export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 # export LD_LIBRARY_PATH="$(rustc --print sysroot)/lib"
 
@@ -49,9 +53,6 @@ export PATH=$PATH:/usr/local/go/bin
 # NPM
 # export PATH="$(yarn global bin):$PATH"
 
-# ASDF
-. $HOME/.asdf/asdf.sh
-. $HOME/.asdf/completions/asdf.bash
 
 # . $HOME/.local/share/lscolors.sh
 
@@ -68,20 +69,25 @@ export LocalDevTestingPath=~/Plow/plow-configs/local-dev-testing
 
 export JAVA_HOME=/usr/lib/jvm/java-20-openjdk-amd64
 
-#[ -f "/home/shulhi/.ghcup/env" ] && source "/home/shulhi/.ghcup/env" # ghcup-env
 
 autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/bin/terraform terraform
-source <(kubectl completion zsh)
 
-export FLYCTL_INSTALL="/home/shulhi/.fly"
-export PATH="$FLYCTL_INSTALL/bin:$PATH"
-
-#[ -f "/home/shulhi/.ghcup/env" ] && source "/home/shulhi/.ghcup/env" # ghcup-env
-
-# opam configuration
-[[ ! -r /home/shulhi/.opam/opam-init/init.zsh ]] || source /home/shulhi/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
-
-[ -f "/home/shulhi/.ghcup/env" ] && source "/home/shulhi/.ghcup/env" # ghcup-env
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+eval "$(starship init zsh)"
+
+if [[ -n "$SSH_CONNECTION" ]]; then
+  kitty @ set-tab-color #ffffff #ff0000  # Blue tab for remote
+fi
+
+
+# BEGIN opam configuration
+# This is useful if you're using opam as it adds:
+#   - the correct directories to the PATH
+#   - auto-completion for the opam binary
+# This section can be safely removed at any time if needed.
+[[ ! -r '/Users/shulhi/.opam/opam-init/init.zsh' ]] || source '/Users/shulhi/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
+# END opam configuration
+#
+eval "$(mise activate zsh)"

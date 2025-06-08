@@ -34,10 +34,10 @@ function M.adjust_theme()
   local themepath = M.themepath
   read_file(themepath, vim.schedule_wrap(function(data)
     if trim6(data) == 'light' then
-      vim.opt.background = 'light'
+      -- vim.opt.background = 'light'
       vim.cmd("colorscheme catppuccin")
     else
-      vim.opt.background = 'dark'
+      --.opt.background = 'dark'
       vim.g.gruvbox_contrast_dark = "hard"
       vim.g.gruvbox_invert_selection = true
       vim.cmd("colorscheme gruvbox")

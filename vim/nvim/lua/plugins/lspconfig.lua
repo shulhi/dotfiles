@@ -49,7 +49,9 @@ return {
 
     elixir.setup {
       nextls = {
-        enable = true, -- defaults to false
+        enable = false, -- defaults to false
+        filetypes = { 'elixir', 'eelixir', 'heex', 'surface' },
+        root_markers = { 'mix.exs', '.git' },
         init_options = {
           experimental = {
             completions = {
@@ -71,7 +73,7 @@ return {
         end
       },
       elixirls = {
-        enable = false,
+        enable = true,
         on_attach = function(client, bufnr)
           if client.supports_method("textDocument/formatting") then
             vim.api.nvim_clear_autocmds({ group = lsp, buffer = bufnr })

@@ -43,6 +43,8 @@ opt.listchars = {
 opt.updatetime = 200
 opt.autoread = true
 
+opt.clipboard = "unnamedplus"
+
 vim.g.mapleader = " "
 
 vim.api.nvim_set_keymap("n", ";", ":", { noremap = true })
@@ -100,6 +102,23 @@ vim.api.nvim_create_autocmd({"VimEnter"}, {
   callback = function()
     utils.adjust_theme()
   end
+})
+
+-- Enable terminal background change reporting (DECSET 2031)
+vim.opt.termguicolors = true
+
+-- Setup auto-command for background change
+vim.api.nvim_create_autocmd("OptionSet", {
+  pattern = "background",
+  callback = function()
+    if vim.o.background == "dark" then
+      vim.cmd("colorscheme gruvbox")  -- your dark theme
+    else
+      vim.defer_fn(function()
+        vim.cmd("colorscheme catppuccin")  -- your light theme
+      end, 10)
+    end
+  end,
 })
 
 require("lazy").setup("plugins")
