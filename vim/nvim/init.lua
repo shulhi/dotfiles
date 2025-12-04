@@ -122,3 +122,4 @@ vim.api.nvim_create_autocmd("OptionSet", {
 })
 
 require("lazy").setup("plugins")
+require("lsp")

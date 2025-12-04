@@ -47,6 +47,10 @@ return {
             winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None,CursorLine:PmenuSel",
             col_offset = -3,
             side_padding = 0,
+            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },  -- Add a border with custom style
+          },
+          documentation = {
+            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },  -- Add a border to the documentation window
           },
         },    
         snippet = {

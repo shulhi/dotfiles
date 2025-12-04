@@ -15,6 +15,14 @@ return {
     local lspconfig = require('lspconfig')
     local lsp = vim.api.nvim_create_augroup("LSP", { clear = true })
 
+    -- Custom handler to add a border to the hover window
+    local hover = vim.lsp.buf.hover
+    vim.lsp.buf.hover = function()
+      hover({
+        border = 'rounded',
+      })
+    end
+
     vim.cmd[[
     au BufRead,BufNewFile *.res set filetype=rescript
     au BufRead,BufNewFile *.resi set filetype=rescript
