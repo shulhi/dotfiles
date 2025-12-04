@@ -1,5 +1,5 @@
 return {
-  cmd = { '/Users/shulhi/.local/share/nvim/mason/bin/rescript-language-server', '--stdio' },
+  cmd = { 'rescript-language-server', '--stdio' },
   filetypes = { 'rescript' },
   root_markers = { 'bsconfig.json', 'rescript.json', '.git' },
   settings = {},
