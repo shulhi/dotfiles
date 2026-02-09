@@ -8,9 +8,6 @@ return {
     event = {'BufReadPre', 'BufNewFile'},
     dependencies = { "onsails/lspkind-nvim" },
     config = function()
-      vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#282C34", fg = "NONE" })
-      vim.api.nvim_set_hl(0, "Pmenu", { fg = "#C5CDD9", bg = "#22252A" })
-
       local cmp = require("cmp")
 
       local kind_icons = {
@@ -53,11 +50,6 @@ return {
             border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },  -- Add a border to the documentation window
           },
         },    
-        snippet = {
-          expand = function(args)
-            require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-          end,
-        },
         mapping = cmp.mapping.preset.insert({
           ['<C-b>'] = cmp.mapping.scroll_docs(-4),
           ['<C-f>'] = cmp.mapping.scroll_docs(4),
@@ -67,9 +59,6 @@ return {
         }),
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },
-          -- { name = 'luasnip' }, -- For luasnip users.
-          -- { name = 'ultisnips' }, -- For ultisnips users.
-          -- { name = 'snippy' }, -- For snippy users.
         }, {
           { name = 'buffer' },
         }),
@@ -93,9 +82,6 @@ return {
           end,
         },
       })
-
-      -- keymaps
-      vim.keymap.set("n", "K", ":lua vim.lsp.buf.hover()<CR>", { silent = true })
     end
   },
 }

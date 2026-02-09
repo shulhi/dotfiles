@@ -76,7 +76,7 @@ vim.api.nvim_set_keymap("v", "<C-l>", ':exe "tabn ".g:lasttab<CR>', { noremap = 
 -- Lazy vim
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",
@@ -88,8 +88,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local fse = vim.loop.new_fs_event()
-vim.loop.fs_event_start(fse, utils.themepath, {}, function(err, fname, status)
+local fse = vim.uv.new_fs_event()
+vim.uv.fs_event_start(fse, utils.themepath, {}, function(err, fname, status)
   if (err) then
     print("Error " .. err)
   else
@@ -103,9 +103,6 @@ vim.api.nvim_create_autocmd({"VimEnter"}, {
     utils.adjust_theme()
   end
 })
-
--- Enable terminal background change reporting (DECSET 2031)
-vim.opt.termguicolors = true
 
 -- Setup auto-command for background change
 vim.api.nvim_create_autocmd("OptionSet", {
