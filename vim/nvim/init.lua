@@ -88,14 +88,14 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- local fse = vim.loop.new_fs_event()
--- vim.loop.fs_event_start(fse, utils.themepath, {}, function(err, fname, status)
---   if (err) then
---     print("Error " .. err)
---   else
---     utils.adjust_theme()
---   end
--- end)
+local fse = vim.loop.new_fs_event()
+vim.loop.fs_event_start(fse, utils.themepath, {}, function(err, fname, status)
+  if (err) then
+    print("Error " .. err)
+  else
+    utils.adjust_theme()
+  end
+end)
 
 
 vim.api.nvim_create_autocmd({"VimEnter"}, {

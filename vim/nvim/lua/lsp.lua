@@ -20,14 +20,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
-vim.api.nvim_create_autocmd("LspDetach", {
-  group = lsp,
-  callback = function(args)
-    vim.keymap.del("n", "gd", { buffer = args.buf })
-    vim.keymap.del("n", "[g", { buffer = args.buf })
-    vim.keymap.del("n", "]g", { buffer = args.buf })
-  end,
-})
 
 vim.diagnostic.config({
   virtual_lines = true
