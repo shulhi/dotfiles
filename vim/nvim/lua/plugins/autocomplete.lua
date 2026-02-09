@@ -10,52 +10,24 @@ return {
     config = function()
       local cmp = require("cmp")
 
-      local kind_icons = {
-        Text = '  ',
-        Method = '  ',
-        Function = '  ',
-        Constructor = '  ',
-        Field = '  ',
-        Variable = '  ',
-        Class = '  ',
-        Interface = '  ',
-        Module = '  ',
-        Property = '  ',
-        Unit = '  ',
-        Value = '  ',
-        Enum = '  ',
-        Keyword = '  ',
-        Snippet = '  ',
-        Color = '  ',
-        File = '  ',
-        Reference = '  ',
-        Folder = '  ',
-        EnumMember = '  ',
-        Constant = '  ',
-        Struct = '  ',
-        Event = '  ',
-        Operator = '  ',
-        TypeParameter = '  ',
-      }
-
       cmp.setup({
         window = {
           completion = {
             winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None,CursorLine:PmenuSel",
             col_offset = -3,
             side_padding = 0,
-            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },  -- Add a border with custom style
+            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
           },
           documentation = {
-            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },  -- Add a border to the documentation window
+            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
           },
-        },    
+        },
         mapping = cmp.mapping.preset.insert({
           ['<C-b>'] = cmp.mapping.scroll_docs(-4),
           ['<C-f>'] = cmp.mapping.scroll_docs(4),
           ['<C-Space>'] = cmp.mapping.complete(),
           ['<C-e>'] = cmp.mapping.abort(),
-          ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+          ['<CR>'] = cmp.mapping.confirm({ select = true }),
         }),
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },
@@ -71,12 +43,9 @@ return {
             local source = ({
               buffer = "[Buffer]",
               nvim_lsp = "[LSP]",
-              luasnip = "[LuaSnip]",
-              nvim_lua = "[Lua]",
-              latex_symbols = "[LaTeX]",
             })[entry.source.name]
             vim_item.kind = " " .. (strings[1] or "") .. " "
-            vim_item.menu = "    (" .. (strings[2] or "") .. ")" .. " " .. (source)
+            vim_item.menu = "    (" .. (strings[2] or "") .. ")" .. " " .. (source or "")
 
             return vim_item
           end,

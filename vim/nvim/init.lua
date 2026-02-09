@@ -1,4 +1,4 @@
-utils = require("utils")
+local utils = require("utils")
 
 local opt = vim.opt
 
@@ -18,8 +18,6 @@ opt.tabstop = 2
 -- line wrap
 opt.wrap = false
 
-opt.hidden = true
-
 opt.cursorline = true
 opt.hlsearch = true
 opt.showmatch = true
@@ -27,9 +25,7 @@ opt.showcmd = true
 opt.scrolloff = 10
 opt.laststatus = 2
 opt.ttimeoutlen = 50
-opt.encoding = "utf-8"
 opt.mouse = "a"
-opt.backspace = "indent,eol,start"
 opt.foldmethod = "syntax"
 
 opt.list = true
