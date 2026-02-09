@@ -4,6 +4,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
   group = lsp,
   callback = function(args)
     vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
+    vim.keymap.set("n", "K", function() vim.lsp.buf.hover({ border = 'rounded' }) end, { buffer = args.buf })
     vim.keymap.set("n", "[g", vim.diagnostic.goto_prev, { buffer = args.buf })
     vim.keymap.set("n", "]g", vim.diagnostic.goto_next, { buffer = args.buf })
 
@@ -24,8 +25,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 
 vim.diagnostic.config({
-  virtual_lines = true
+  virtual_lines = true,
+  float = { border = 'rounded' },
 })
+
 
 vim.lsp.enable({'rescriptls'})
 vim.lsp.enable({'ocamllsp'})
