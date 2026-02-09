@@ -3,12 +3,21 @@ local lsp = vim.api.nvim_create_augroup("LSP", { clear = true })
 vim.api.nvim_create_autocmd("LspAttach", {
   group = lsp,
   callback = function(args)
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
-    vim.keymap.set("n", "K", function() vim.lsp.buf.hover({ border = 'rounded' }) end, { buffer = args.buf })
-    vim.keymap.set("n", "[g", vim.diagnostic.goto_prev, { buffer = args.buf })
-    vim.keymap.set("n", "]g", vim.diagnostic.goto_next, { buffer = args.buf })
-
+    local buf = args.buf
     local client = vim.lsp.get_client_by_id(args.data.client_id)
+
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = buf })
+    vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = buf })
+    vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, { buffer = buf })
+    vim.keymap.set("n", "K", function() vim.lsp.buf.hover({ border = 'rounded' }) end, { buffer = buf })
+    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { buffer = buf })
+    vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = buf })
+    vim.keymap.set("n", "[g", function() vim.diagnostic.jump({ count = -1 }) end, { buffer = buf })
+    vim.keymap.set("n", "]g", function() vim.diagnostic.jump({ count = 1 }) end, { buffer = buf })
+
+    if client.supports_method("textDocument/inlayHint") then
+      vim.lsp.inlay_hint.enable(true, { bufnr = buf })
+    end
 
     if client.supports_method("textDocument/formatting") then
       vim.api.nvim_clear_autocmds({ group = lsp, buffer = args.buf })
