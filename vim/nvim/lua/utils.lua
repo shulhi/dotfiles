@@ -4,7 +4,7 @@ end
 
 local M = {}
 
-M.themepath = os.getenv("HOME") .. "/.theme"
+M.themepath = os.getenv("HOME") .. "/.dotfiles/active-theme/theme"
 
 function M.adjust_theme()
   vim.schedule(function()

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ $# -eq 0 ]; then
-  if grep -q dark "$HOME/.theme"; then
+  if grep -q dark "$HOME/.dotfiles/active-theme/theme"; then
     theme=light
   else
     theme=dark
@@ -13,13 +13,13 @@ fi
 # CHANGE THE THEMES TO THE ONES RELEVANT TO YOU
 if [ "$theme" = "dark" ]; then
   kitty +kitten themes --reload-in=all Gruvbox Dark Hard
-  echo 'dark' > "$HOME/.theme"
+  echo 'dark' > "$HOME/.dotfiles/active-theme/theme"
   gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 else
   # kitty +kitten themes --reload-in=all One Half Light
   kitty +kitten themes --cache-age=0 --reload-in=all Catppuccin Kitty Latte
   # kitty +kitten themes --cache-age=0 --reload-in=all Tokyo Night Day
-  echo 'light' > "$HOME/.theme"
+  echo 'light' > "$HOME/.dotfiles/active-theme/theme"
   gsettings set org.gnome.desktop.interface color-scheme 'prefer-light'
 fi
 

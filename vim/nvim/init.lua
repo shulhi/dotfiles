@@ -84,24 +84,41 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local fse = vim.uv.new_fs_event()
-local theme_dir = vim.fn.fnamemodify(utils.themepath, ":h")
-vim.uv.fs_event_start(fse, theme_dir, {}, function(err, fname, status)
-  if err then
-    vim.notify("Error watching theme: " .. err, vim.log.levels.ERROR)
-  else
-    vim.schedule(function()
-      utils.adjust_theme()
-    end)
-  end
-end)
-
+-- On Linux, watch the theme file for changes
+-- On macOS, theme changes are handled by OptionSet autocmd
+if vim.uv.os_uname().sysname == "Linux" then
+  local fse = vim.uv.new_fs_event()
+  local theme_dir = vim.fn.fnamemodify(utils.themepath, ":h")
+  vim.uv.fs_event_start(fse, theme_dir, {}, function(err, fname, status)
+    if err then
+      vim.notify("Error watching theme: " .. err, vim.log.levels.ERROR)
+    else
+      vim.schedule(function()
+        utils.adjust_theme()
+      end)
+    end
+  end)
+end
 
 vim.api.nvim_create_autocmd({"VimEnter"}, {
   callback = function()
     utils.adjust_theme()
   end
 })
+
+-- On macOS, handle theme changes via background option
+if vim.uv.os_uname().sysname == "Darwin" then
+  vim.api.nvim_create_autocmd("OptionSet", {
+    pattern = "background",
+    callback = function()
+      if vim.o.background == "dark" then
+        vim.cmd("colorscheme gruvbox")
+      else
+        vim.cmd("colorscheme catppuccin")
+      end
+    end,
+  })
+end
 
 require("lazy").setup("plugins")
 require("lsp")
