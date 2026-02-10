@@ -14,18 +14,6 @@ return {
       log_level = vim.log.levels.WARN,
       -- All formatter configurations are opt-in
       filetype = {
-        rescript = {
-          function ()
-            vim.lsp.buf.format()
-          end,
-        },
-
-        elixir = {
-          function ()
-            vim.lsp.buf.format()
-          end,
-        },
-
         haskell = function()
           return {
             exe = "fourmolu",

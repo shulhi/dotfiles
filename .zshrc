@@ -18,12 +18,12 @@ alias grep-src="grep -nIEr --color=ALWAYS"
 alias vim="nvim"
 alias vimdiff='nvim -d'
 
-alias notes="cd ~/notes && nvim index.md"
 alias plow="cd ~/Plow/all"
 alias devel="cd ~/Devel"
 alias projects="cd ~/Devel/projects"
 alias onping="cd ~/Plow/all/onping2.0 && nvim ."
 alias rrof="cd ~/Plow/all/re-react-onping-frontend && nvim ."
+
 # File system
 export EXA_COLORS="$(vivid generate solarized-light)"
 export EXA_COLORS="oc=0"
@@ -38,23 +38,14 @@ export EDITOR=nvim
 export PATH="$PATH:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 export PATH="/usr/local/bin:$HOME/.local/bin:$PATH"
 
+## MASON
+export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
+
 # Rust
 export PATH="$HOME/.cargo/bin:$HOME/.cabal/bin:$PATH"
 . "$HOME/.cargo/env"
 
-# ASDF
-# . $HOME/.asdf/asdf.sh
-# . $HOME/.asdf/completions/asdf.bash
-# export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
-# export LD_LIBRARY_PATH="$(rustc --print sysroot)/lib"
-
 export PATH=$PATH:/usr/local/go/bin
-
-# NPM
-# export PATH="$(yarn global bin):$PATH"
-
-
-# . $HOME/.local/share/lscolors.sh
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-vcs -g "!{**/node_modules,.git,**/dist-newstyle,**/*.cmj,**/*.cmi,**/*.cmt,**/lib/bs,**/lib/js,**/dist/build,_build,.elixir_ls,priv/static,deps}"'
 
@@ -69,9 +60,7 @@ export LocalDevTestingPath=~/Plow/plow-configs/local-dev-testing
 
 export JAVA_HOME=/usr/lib/jvm/java-20-openjdk-amd64
 
-
 autoload -U +X bashcompinit && bashcompinit
-
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

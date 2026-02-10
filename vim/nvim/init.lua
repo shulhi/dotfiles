@@ -1,4 +1,4 @@
-utils = require("utils")
+local utils = require("utils")
 
 local opt = vim.opt
 
@@ -18,8 +18,6 @@ opt.tabstop = 2
 -- line wrap
 opt.wrap = false
 
-opt.hidden = true
-
 opt.cursorline = true
 opt.hlsearch = true
 opt.showmatch = true
@@ -27,9 +25,7 @@ opt.showcmd = true
 opt.scrolloff = 10
 opt.laststatus = 2
 opt.ttimeoutlen = 50
-opt.encoding = "utf-8"
 opt.mouse = "a"
-opt.backspace = "indent,eol,start"
 opt.foldmethod = "syntax"
 
 opt.list = true
@@ -76,7 +72,7 @@ vim.api.nvim_set_keymap("v", "<C-l>", ':exe "tabn ".g:lasttab<CR>', { noremap = 
 -- Lazy vim
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",
@@ -88,14 +84,14 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- local fse = vim.loop.new_fs_event()
--- vim.loop.fs_event_start(fse, utils.themepath, {}, function(err, fname, status)
---   if (err) then
---     print("Error " .. err)
---   else
---     utils.adjust_theme()
---   end
--- end)
+local fse = vim.uv.new_fs_event()
+vim.uv.fs_event_start(fse, utils.themepath, {}, function(err, fname, status)
+  if (err) then
+    print("Error " .. err)
+  else
+    utils.adjust_theme()
+  end
+end)
 
 
 vim.api.nvim_create_autocmd({"VimEnter"}, {
@@ -103,9 +99,6 @@ vim.api.nvim_create_autocmd({"VimEnter"}, {
     utils.adjust_theme()
   end
 })
-
--- Enable terminal background change reporting (DECSET 2031)
-vim.opt.termguicolors = true
 
 -- Setup auto-command for background change
 vim.api.nvim_create_autocmd("OptionSet", {
@@ -122,3 +115,4 @@ vim.api.nvim_create_autocmd("OptionSet", {
 })
 
 require("lazy").setup("plugins")
+require("lsp")

@@ -1,5 +1,4 @@
-local os_name = jit.os
-local uv = vim.loop
+local uv = vim.uv
 
 function trim6(s)
   return s:match '^()%s*$' and '' or s:match '^%s*(.*%S)'
@@ -24,11 +23,7 @@ end
 
 local M = {}
 
-if os_name == "OSX" then
-  M.themepath = "/Users/shulhi/.theme"
-else
-  M.themepath = "/home/shulhi/.theme"
-end
+M.themepath = os.getenv("HOME") .. "/.theme"
 
 function M.adjust_theme()
   local themepath = M.themepath
