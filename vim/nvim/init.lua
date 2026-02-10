@@ -85,11 +85,14 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local fse = vim.uv.new_fs_event()
-vim.uv.fs_event_start(fse, utils.themepath, {}, function(err, fname, status)
-  if (err) then
-    print("Error " .. err)
+local theme_dir = vim.fn.fnamemodify(utils.themepath, ":h")
+vim.uv.fs_event_start(fse, theme_dir, {}, function(err, fname, status)
+  if err then
+    vim.notify("Error watching theme: " .. err, vim.log.levels.ERROR)
   else
-    utils.adjust_theme()
+    vim.schedule(function()
+      utils.adjust_theme()
+    end)
   end
 end)
 
@@ -98,20 +101,6 @@ vim.api.nvim_create_autocmd({"VimEnter"}, {
   callback = function()
     utils.adjust_theme()
   end
-})
-
--- Setup auto-command for background change
-vim.api.nvim_create_autocmd("OptionSet", {
-  pattern = "background",
-  callback = function()
-    if vim.o.background == "dark" then
-      vim.cmd("colorscheme gruvbox")  -- your dark theme
-    else
-      vim.defer_fn(function()
-        vim.cmd("colorscheme catppuccin")  -- your light theme
-      end, 10)
-    end
-  end,
 })
 
 require("lazy").setup("plugins")

@@ -35,6 +35,7 @@ alias lta='lt -a'
 export EDITOR=nvim
 
 ## PATH
+export PATH="$PATH:/usr/local/go/bin:$HOME/go/bin"
 export PATH="$PATH:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 export PATH="/usr/local/bin:$HOME/.local/bin:$PATH"
 
@@ -46,6 +47,14 @@ export PATH="$HOME/.cargo/bin:$HOME/.cabal/bin:$PATH"
 . "$HOME/.cargo/env"
 
 export PATH=$PATH:/usr/local/go/bin
+# NPM
+# export PATH="$(yarn global bin):$PATH"
+
+# ASDF
+export ASDF_DATA_DIR="$HOME/.asdf"
+export PATH="$ASDF_DATA_DIR/shims:$PATH"
+
+# . $HOME/.local/share/lscolors.sh
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-vcs -g "!{**/node_modules,.git,**/dist-newstyle,**/*.cmj,**/*.cmi,**/*.cmt,**/lib/bs,**/lib/js,**/dist/build,_build,.elixir_ls,priv/static,deps}"'
 
@@ -66,9 +75,9 @@ autoload -U +X bashcompinit && bashcompinit
 
 eval "$(starship init zsh)"
 
-if [[ -n "$SSH_CONNECTION" ]]; then
-  kitty @ set-tab-color #ffffff #ff0000  # Blue tab for remote
-fi
+# if [[ -n "$SSH_CONNECTION" ]]; then
+#   kitty @ set-tab-color #ffffff #ff0000  # Blue tab for remote
+# fi
 
 
 # BEGIN opam configuration
@@ -76,7 +85,7 @@ fi
 #   - the correct directories to the PATH
 #   - auto-completion for the opam binary
 # This section can be safely removed at any time if needed.
-[[ ! -r '/Users/shulhi/.opam/opam-init/init.zsh' ]] || source '/Users/shulhi/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
+[[ ! -r "$HOME/.opam/opam-init/init.zsh" ]] || source "$HOME/.opam/opam-init/init.zsh" > /dev/null 2> /dev/null
 # END opam configuration
 #
-eval "$(mise activate zsh)"
+# eval "$(mise activate zsh)"
