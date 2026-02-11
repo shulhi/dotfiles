@@ -19,10 +19,5 @@ return {
         },
       }
     end,
-  },
-  {
-    "nkrkv/nvim-treesitter-rescript",
-    ft = {"rescript"},
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
   }
 }

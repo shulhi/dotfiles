@@ -1,0 +1,55 @@
+format = """
+[](color_orange)\
+$username\
+[ ](fg:color_orange bg:color_bg1)\
+$hostname\
+[ ](fg:color_bg1)\
+$directory\
+$git_branch\
+$git_status\
+$line_break\
+$character"""
+
+palette = 'gruvbox_dark'
+
+[directory]
+read_only = " "
+fish_style_pwd_dir_length = 5
+truncation_length = 5
+truncation_symbol = '…/'
+
+[battery]
+full_symbol = "•"
+charging_symbol = "⇡"
+discharging_symbol = "⇣"
+
+[git_branch]
+format = "\\[[$branch]($style)\\]"
+style = "bright-black"
+
+[git_status]
+format = "*"
+
+[username]
+format = '[$user ]($style)'
+style_user = "bg:color_orange fg:color_fg0"
+style_root = "bg:color_orange fg:color_fg0"
+disabled = false
+show_always = true
+
+[hostname]
+format = '[$ssh_symbol$hostname]($style)'
+style = "bg:color_bg1 fg:color_fg0"
+ssh_symbol = '@'
+
+[palettes.gruvbox_dark]
+color_fg0 = '#fbf1c7'
+color_bg1 = '#3c3836'
+color_bg3 = '#665c54'
+color_blue = '#458588'
+color_aqua = '#689d6a'
+color_green = '#98971a'
+color_orange = '#d65d0e'
+color_purple = '#b16286'
+color_red = '#cc241d'
+color_yellow = '#d79921'
