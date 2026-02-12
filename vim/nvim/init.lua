@@ -98,13 +98,13 @@ if vim.uv.os_uname().sysname == "Linux" then
       end)
     end
   end)
-end
 
-vim.api.nvim_create_autocmd({"VimEnter"}, {
-  callback = function()
-    utils.adjust_theme()
-  end
-})
+  vim.api.nvim_create_autocmd({"VimEnter"}, {
+    callback = function()
+      utils.adjust_theme()
+    end
+  })
+end
 
 -- On macOS, handle theme changes via background option
 if vim.uv.os_uname().sysname == "Darwin" then
