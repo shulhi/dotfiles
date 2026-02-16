@@ -13,6 +13,7 @@ palette = 'gruvbox_dark'
 [directory]
 read_only = " "
 truncation_length = 5
+truncate_to_repo = false
 truncation_symbol = '…/'
 
 [battery]
@@ -35,9 +36,10 @@ disabled = false
 show_always = true
 
 [hostname]
-format = '[$ssh_symbol $hostname]($style)'
+format = '[$ssh_symbol$hostname]($style)'
 style = "bg:color_bg1 fg:color_fg0"
-ssh_symbol = '@'
+ssh_only = false
+ssh_symbol = '⛁ '
 
 
 [palettes.gruvbox_dark]

@@ -1,7 +1,7 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    ["do"] = ":TSUpdate",
+    build = ":TSUpdate",
     config = function()
       require('nvim-treesitter.configs').setup {
         ensure_installed = {
@@ -9,7 +9,8 @@ return {
           "heex",
           "eex",
           "lua",
-          "haskell"
+          "haskell",
+          "rescript"
         },
         sync_install = false,
         ignore_install = { },

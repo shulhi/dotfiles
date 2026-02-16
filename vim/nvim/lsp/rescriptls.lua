@@ -10,7 +10,7 @@ return {
 
       allowBuiltInFormatter = true, -- lower latency
       incrementalTypechecking = { -- removes the need for external build process
-        enabled = true,
+        enable = true,
         acrossFiles = true,
       },
       cache = { projectConfig = { enabled = true } }, -- speed up latency dramatically

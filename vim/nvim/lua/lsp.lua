@@ -30,9 +30,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
       })
     end
 
-    if client and client.name == "rescriptls" then
-      client.server_capabilities.semanticTokensProvider = nil
-    end
+--    if client and client.name == "rescriptls" then
+--      client.server_capabilities.semanticTokensProvider = nil
+--    end
   end,
 })
 
