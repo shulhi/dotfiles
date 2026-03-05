@@ -43,5 +43,6 @@ vim.diagnostic.config({
 })
 
 
+vim.lsp.enable({'typescriptlsp'})
 vim.lsp.enable({'rescriptls'})
 vim.lsp.enable({'ocamllsp'})
