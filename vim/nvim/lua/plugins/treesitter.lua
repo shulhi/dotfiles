@@ -1,24 +1,28 @@
+local languages = {
+  "elixir",
+  "heex",
+  "eex",
+  "lua",
+  "haskell",
+  "rescript",
+}
+
 return {
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
+    lazy = false,
     build = ":TSUpdate",
     config = function()
-      require('nvim-treesitter.configs').setup {
-        ensure_installed = {
-          "elixir",
-          "heex",
-          "eex",
-          "lua",
-          "haskell",
-          "rescript"
-        },
-        sync_install = false,
-        ignore_install = { },
-        highlight = {
-          enable = true,
-          disable = { },
-        },
-      }
+      require("nvim-treesitter").setup()
+      require("nvim-treesitter").install(languages)
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = languages,
+        callback = function()
+          vim.treesitter.start()
+        end,
+      })
     end,
   }
 }
