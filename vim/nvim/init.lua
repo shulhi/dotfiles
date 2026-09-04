@@ -98,25 +98,36 @@ if vim.uv.os_uname().sysname == "Linux" then
       end)
     end
   end)
+  vim.api.nvim_create_autocmd({"VimEnter"}, {
+    callback = function()
+      utils.adjust_theme()
+    end
+  })
 end
 
-vim.api.nvim_create_autocmd({"VimEnter"}, {
-  callback = function()
-    utils.adjust_theme()
-  end
-})
 
 -- On macOS, handle theme changes via background option
 if vim.uv.os_uname().sysname == "Darwin" then
+  local function set_colorscheme_from_background()
+    if vim.o.background == "dark" then
+      vim.cmd("colorscheme gruvbox")
+    else
+      vim.cmd("colorscheme catppuccin")
+    end
+  end
+
+  -- 'background' defaults to "dark", so if the terminal's OSC 11
+  -- auto-detection confirms dark, the value never changes and
+  -- OptionSet never fires. Apply once on startup unconditionally,
+  -- then let OptionSet handle any later change (e.g. switching
+  -- macOS appearance mid-session).
+  vim.api.nvim_create_autocmd({ "VimEnter" }, {
+    callback = set_colorscheme_from_background,
+  })
+
   vim.api.nvim_create_autocmd("OptionSet", {
     pattern = "background",
-    callback = function()
-      if vim.o.background == "dark" then
-        vim.cmd("colorscheme gruvbox")
-      else
-        vim.cmd("colorscheme catppuccin")
-      end
-    end,
+    callback = set_colorscheme_from_background,
   })
 end
 
