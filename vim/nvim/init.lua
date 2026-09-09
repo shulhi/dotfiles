@@ -116,13 +116,25 @@ if vim.uv.os_uname().sysname == "Darwin" then
     end
   end
 
-  -- 'background' defaults to "dark", so if the terminal's OSC 11
-  -- auto-detection confirms dark, the value never changes and
-  -- OptionSet never fires. Apply once on startup unconditionally,
-  -- then let OptionSet handle any later change (e.g. switching
-  -- macOS appearance mid-session).
-  vim.api.nvim_create_autocmd({ "VimEnter" }, {
-    callback = set_colorscheme_from_background,
+  -- tmux `focus-events on` makes switching tmux windows fire
+  -- FocusGained even without real terminal-level focus change, but
+  -- the OSC 11 auto-detection push it would otherwise rely on only
+  -- ever reaches whichever tmux window was on screen at the moment
+  -- macOS actually changed appearance. So on FocusGained, actively
+  -- ask macOS for the current appearance instead of trusting
+  -- whatever 'background' was left at.
+  local function sync_macos_theme()
+    vim.system({ "defaults", "read", "-g", "AppleInterfaceStyle" }, { text = true }, function(res)
+      vim.schedule(function()
+        local is_dark = res.code == 0 and res.stdout:match("Dark") ~= nil
+        vim.o.background = is_dark and "dark" or "light"
+        set_colorscheme_from_background()
+      end)
+    end)
+  end
+
+  vim.api.nvim_create_autocmd({ "VimEnter", "FocusGained" }, {
+    callback = sync_macos_theme,
   })
 
   vim.api.nvim_create_autocmd("OptionSet", {
