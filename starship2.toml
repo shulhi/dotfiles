@@ -1,7 +1,5 @@
 format = """
-[◖](bold color_bg1)\
-$hostname\
-[◗ ](fg:color_bg1)\
+$hostname:\
 $directory\
 $git_branch\
 $git_status\
@@ -36,8 +34,7 @@ disabled = false
 show_always = true
 
 [hostname]
-format = '[$ssh_symbol$hostname]($style)'
-style = "bg:color_bg1 fg:color_fg0"
+format = '$ssh_symbol$hostname'
 ssh_only = false
 ssh_symbol = '⛁ '
 
