@@ -84,9 +84,41 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- On Linux, watch the theme file for changes
--- On macOS, theme changes are handled by OptionSet autocmd
-if vim.uv.os_uname().sysname == "Linux" then
+local function set_colorscheme_from_background()
+  if vim.o.background == "dark" then
+    vim.g.gruvbox_contrast_dark = "hard"
+    vim.g.gruvbox_invert_selection = true
+    vim.cmd("colorscheme gruvbox")
+  else
+    vim.cmd("colorscheme catppuccin")
+  end
+end
+
+local sysname = vim.uv.os_uname().sysname
+local in_rex = os.getenv("REX_SESSION") ~= nil or (os.getenv("TERM") or ""):match("rex") ~= nil
+
+if sysname == "Linux" and in_rex then
+  -- Rex (no tmux): follow the terminal's own theme. Nvim queries the
+  -- terminal background with OSC 11 at startup (and on theme-change
+  -- notifications if the terminal supports mode 2031), setting
+  -- 'background' accordingly. Re-query on FocusGained as a fallback in
+  -- case the theme changed while we weren't listening.
+  vim.api.nvim_create_autocmd("VimEnter", {
+    callback = set_colorscheme_from_background,
+  })
+
+  vim.api.nvim_create_autocmd("FocusGained", {
+    callback = function()
+      vim.api.nvim_ui_send("\027]11;?\007")
+    end,
+  })
+
+  vim.api.nvim_create_autocmd("OptionSet", {
+    pattern = "background",
+    callback = set_colorscheme_from_background,
+  })
+elseif sysname == "Linux" then
+  -- Other Linux: watch the theme file for changes
   local fse = vim.uv.new_fs_event()
   local theme_dir = vim.fn.fnamemodify(utils.themepath, ":h")
   vim.uv.fs_event_start(fse, theme_dir, {}, function(err, fname, status)
@@ -107,15 +139,7 @@ end
 
 
 -- On macOS, handle theme changes via background option
-if vim.uv.os_uname().sysname == "Darwin" then
-  local function set_colorscheme_from_background()
-    if vim.o.background == "dark" then
-      vim.cmd("colorscheme gruvbox")
-    else
-      vim.cmd("colorscheme catppuccin")
-    end
-  end
-
+if sysname == "Darwin" then
   -- tmux `focus-events on` makes switching tmux windows fire
   -- FocusGained even without real terminal-level focus change, but
   -- the OSC 11 auto-detection push it would otherwise rely on only
