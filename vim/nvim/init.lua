@@ -97,8 +97,8 @@ end
 local sysname = vim.uv.os_uname().sysname
 local in_rex = os.getenv("REX_SESSION") ~= nil or (os.getenv("TERM") or ""):match("rex") ~= nil
 
-if sysname == "Linux" and in_rex then
-  -- Rex (no tmux): follow the terminal's own theme. Nvim queries the
+if in_rex then
+  -- Rex on any platform: follow the terminal's own theme. Nvim queries the
   -- terminal background with OSC 11 at startup (and on theme-change
   -- notifications if the terminal supports mode 2031), setting
   -- 'background' accordingly. Re-query on FocusGained as a fallback in
@@ -139,7 +139,7 @@ end
 
 
 -- On macOS, handle theme changes via background option
-if sysname == "Darwin" then
+if sysname == "Darwin" and not in_rex then
   -- tmux `focus-events on` makes switching tmux windows fire
   -- FocusGained even without real terminal-level focus change, but
   -- the OSC 11 auto-detection push it would otherwise rely on only
