@@ -98,19 +98,9 @@ local sysname = vim.uv.os_uname().sysname
 local in_rex = os.getenv("REX_SESSION") ~= nil or (os.getenv("TERM") or ""):match("rex") ~= nil
 
 if in_rex then
-  -- Rex on any platform: follow the terminal's own theme. Nvim queries the
-  -- terminal background with OSC 11 at startup (and on theme-change
-  -- notifications if the terminal supports mode 2031), setting
-  -- 'background' accordingly. Re-query on FocusGained as a fallback in
-  -- case the theme changed while we weren't listening.
-  vim.api.nvim_create_autocmd("VimEnter", {
-    callback = set_colorscheme_from_background,
-  })
-
-  vim.api.nvim_create_autocmd("FocusGained", {
-    callback = function()
-      vim.api.nvim_ui_send("\027]11;?\007")
-    end,
+  local sync_rex_theme = require("rex_theme").new(set_colorscheme_from_background)
+  vim.api.nvim_create_autocmd({ "VimEnter", "FocusGained" }, {
+    callback = sync_rex_theme,
   })
 
   vim.api.nvim_create_autocmd("OptionSet", {
