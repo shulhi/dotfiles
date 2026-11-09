@@ -1,0 +1,11 @@
+# Managed by ~/.dotfiles/server/mise.toml. Edit versions there.
+[tools]
+node = "{{ vars.node_version }}"
+rust = "{{ vars.rust_version }}"
+"aqua:neovim/neovim" = "{{ vars.nvim_version }}"
+"aqua:junegunn/fzf" = "{{ vars.fzf_version }}"
+"aqua:eza-community/eza" = "{{ vars.eza_version }}"
+"aqua:jesseduffield/lazygit" = "{{ vars.lazygit_version }}"
+"aqua:tree-sitter/tree-sitter" = "{{ vars.treesitter_version }}"
+"aqua:starship/starship" = "{{ vars.starship_version }}"
+"aqua:cli/cli" = "{{ vars.gh_version }}"

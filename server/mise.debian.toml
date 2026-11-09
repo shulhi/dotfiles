@@ -1,0 +1,11 @@
+# The entry script selects this module automatically on Debian.
+[bootstrap.apt.sources.docker]
+uris = "https://download.docker.com/linux/debian"
+components = "stable"
+key = "https://download.docker.com/linux/debian/gpg"
+fingerprint = "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
+
+[bootstrap.apt.sources.tailscale]
+uris = "https://pkgs.tailscale.com/stable/debian"
+key = "https://pkgs.tailscale.com/stable/debian/bookworm.noarmor.gpg"
+fingerprint = "2596A99EAAB33821893C0A79458CA832957F5868"

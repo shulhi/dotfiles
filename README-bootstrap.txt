@@ -1,291 +1,204 @@
-SERVER BOOTSTRAP
+SERVER SETUP WITH MISE
 
-Target: Ubuntu 24.04 or newer, or Debian 13 or newer; x86-64 or ARM64.
-Requires a normal user with sudo access and a running systemd installation.
-Run the script on the NEW SERVER, not on your Mac.
-The upstream tree-sitter CLI binary requires glibc 2.39+, so Debian 12 is excluded.
+Run as shulhi on Ubuntu 24.04+ or Debian 13+ (glibc 2.39+, x86-64/ARM64),
+with sudo and a running systemd user manager. The server account and SSH login
+must already exist. The script does not create users, copy private keys, or
+grant sudo. On shipyard, shulhi already has permanent passwordless sudo.
 
 QUICK START
 
-On your Mac, from the directory containing bootstrap-server.sh:
+    git clone https://github.com/shulhi/dotfiles.git ~/.dotfiles
+    bash ~/.dotfiles/bootstrap-server.sh --dry-run
+    bash ~/.dotfiles/bootstrap-server.sh
 
-    scp bootstrap-server.sh you@server:~/bootstrap-server.sh
-    ssh you@server
+For a minimal machine without Git, copy bootstrap-server.sh to it first. The
+entry script installs only the prerequisites/mise, clones missing dotfiles,
+then hands off to mise. Existing dotfiles checkouts are reused, never reset.
+Debian automatically selects server/mise.debian.toml for the vendor apt URLs.
 
-On the server, as the account you want to configure:
+The desired state is in ~/.dotfiles/server/mise.toml:
+  * apt packages, official Docker/Tailscale/Rex sources and signing fingerprints;
+  * Docker group membership for shulhi; Fish as the login shell;
+  * mise-managed, pinned Node.js, Rust, Neovim, fzf, eza, lazygit, tree-sitter,
+    Starship, and GitHub CLI;
+  * Neovim/Fish/Starship dotfile links and global mise tool selection;
+  * the two ShipPDF repositories and Portside checkout;
+  * system Docker/Tailscale services, Rex's personal socket and --tailscale
+    drop-in, and a persistent user Portside service.
 
-    bash ~/bootstrap-server.sh --dry-run
-    bash ~/bootstrap-server.sh
+Small shell helpers cover the operations that need custom logic: adopting the
+old vendor apt files, Git/SSH configuration, native Claude/Codex installers,
+Neovim plugin restore, and compiling Portside. The former monolithic installer
+is replaced; no hidden copy of it remains in the setup.
 
-Do not prefix the script with sudo. It uses sudo only where needed. If the server
-only has a root login, create a normal user and grant it sudo access first.
+PREVIEW, APPLY, AND VERIFY
 
-AFTER INSTALLATION
+    bash ~/.dotfiles/bootstrap-server.sh --dry-run
+    bash ~/.dotfiles/bootstrap-server.sh
+    mise -C ~/.dotfiles/server bootstrap plan
+    mise -C ~/.dotfiles/server bootstrap status
+    mise -C ~/.dotfiles/server run verify
 
-1. Join the server to your existing Tailscale network:
+On Debian, use mise -E debian -C ~/.dotfiles/server for direct mise commands.
+The entry script chooses this automatically.
 
-    sudo tailscale up
+The entry script explicitly trusts only this setup for that process.
+For direct mise commands, first review and trust the files yourself:
 
-   Follow the sign-in URL, then check: tailscale status
-   Existing Tailscale identity and preferences are preserved on repeat runs.
+    mise trust ~/.dotfiles/server/mise.toml
+    # Debian only:
+    mise trust ~/.dotfiles/server/mise.debian.toml
 
-2. Reconnect to start Fish and refresh any group membership changes.
+Mise's resource plan covers packages, accounts, files and services. Its complete
+--dry-run also previews repos, dotfiles, tools, hooks and tasks. Hooks are only
+printed in a dry run. A Mac preview points you to the Linux configuration;
+compare against actual machine state by running the preview on the server.
 
-3. The bootstrap adds your account to the docker group by default, so Docker
-   works without sudo after a fresh login. To skip group setup:
+Old per-tool --skip-* switches were replaced by declarations and mise filters:
 
-    bash ~/bootstrap-server.sh --no-docker-group
+    bash ~/.dotfiles/bootstrap-server.sh --only packages
+    bash ~/.dotfiles/bootstrap-server.sh --skip task
+    mise -C ~/.dotfiles/server run portside
 
-   Docker group membership provides root-equivalent access. Existing terminal
-   processes retain their old groups. In an existing Rex terminal, run:
+--skip task omits native Claude/Codex setup and Neovim plugin restoration.
+SKIP_CLAUDE=1 or SKIP_CODEX=1 can omit either native installer individually.
+--only/--skip use mise's bootstrap PART names, not individual tool names.
+Applying a single part does not imply its prerequisites or hooks have run.
 
-    newgrp docker
+Versions are pinned in [vars] in server/mise.toml. Edit them there; the generated
+global tool profile makes those same versions available outside this directory.
+Review the plan and rerun setup after changes. For intentional repository updates:
 
-   A new SSH login also picks up the new membership. --no-docker-group skips
-   adding membership; it does not remove an existing membership.
+    bash ~/.dotfiles/bootstrap-server.sh --update
 
-4. Configure Rex remote access using one of the options below.
+Without --update, existing repos retain their current commits. Dirty checkouts,
+wrong origins, or conflicting destinations stop mise instead of discarding work.
+--upgrade upgrades packages/tools within the declared pins; it does not change
+the pinned versions. System apt packages are not frozen to exact release versions.
 
-5. Claude Code and Codex CLI are installed for your account by default:
+GIT, GITHUB, AND SHIPPDF
 
-    claude --version
-    codex --version
-
-   Start claude or codex to sign in on the server. Credentials from your Mac
-   are not copied. Both use their official standalone installers and do not
-   require Node.js/npm. Their commands are available through ~/.local/bin.
-   Existing installations are kept on repeat bootstrap runs. To skip either:
-
-    bash ~/bootstrap-server.sh --skip-claude --skip-codex
-
-6. Node.js and npm are installed through mise for your account. The default is
-   the current LTS release; its exact resolved version is saved in your global
-   mise configuration. Select another major or exact version with:
-
-    NODE_VERSION=22 bash ~/bootstrap-server.sh
-    NODE_VERSION=22.14.0 bash ~/bootstrap-server.sh
-
-   Repeat runs resolve NODE_VERSION again, so lts/major requests can pick up newer
-   releases. Existing mise installations are kept. Use --skip-node to omit both
-   mise and Node.js setup. Node.js is not installed with apt or a system-wide npm.
-   Your Fish dotfiles already activate mise interactively. A managed Fish conf.d
-   file adds mise shims for non-interactive SSH commands too. Verify with:
-
-    node --version
-    npm --version
-    mise current node
-
-7. ShipPDF repositories are cloned by default into:
-
+Repositories live at:
     ~/Dev/codemorehq/shippdf/shippdf-marketing
     ~/Dev/codemorehq/shippdf/shippdf-app
+    ~/Dev/portside
 
-   These private repositories use git@github.com:ShipPDF/<repo>.git by default.
-   Authorize the server's SSH key with access to both repositories before running
-   bootstrap. If ~/.ssh/id_ed25519_github exists, the bootstrap selects it for
-   ShipPDF Git commands and configures Host github.com in ~/.ssh/config with
-   User git, that IdentityFile, and IdentitiesOnly yes. It preserves unrelated
-   SSH settings and backs up changed files. Otherwise it uses your normal SSH
-   config/agent. Set
-   GITHUB_SSH_KEY to use another existing key. The bootstrap does not generate,
-   copy, or register private keys. GitHub's published Ed25519 host key is pinned
-   in the script and added to known_hosts; unknown keys are not blindly accepted.
+ShipPDF's private repositories require an authorized GitHub credential before
+the repos step. The bootstrap uses ~/.ssh/id_ed25519_github when present, or an
+existing key selected by GITHUB_SSH_KEY=/absolute/path. It writes the managed
+github.com SSH identity block while preserving unrelated host configuration.
+It does not generate, upload, or copy private keys. GitHub's published Ed25519
+host key is pinned; unexpected host-key changes require an explicit update.
 
-   For a Git credential helper configured for HTTPS instead:
+Missing global Git defaults are filled with Shulhi Sapli,
+913103+shulhi@users.noreply.github.com, and nvim. A conditional include sets the
+ShipPDF author and chosen SSH identity only under ~/Dev/codemorehq/shippdf/.
+Use GIT_NAME/GIT_EMAIL or SHIPPDF_GIT_NAME/SHIPPDF_GIT_EMAIL to override them.
+Existing signing configuration is retained; Mac-specific 1Password signing
+programs are not copied to Linux.
 
-    SHIPPDF_GIT_TRANSPORT=https bash ~/bootstrap-server.sh
-
-   Setup stops with a clear error if private repository authentication is not
-   ready. Use --skip-shippdf to complete machine setup without these repositories.
-
-   Git configuration for all checkouts beneath ~/Dev/codemorehq/shippdf/ comes
-   from ~/.config/git/shippdf.gitconfig through a conditional global include.
-   It sets your author name/email, Neovim editor, and the existing SSH key when
-   selected. Defaults use Shulhi Sapli and your GitHub noreply address. Override
-   with SHIPPDF_GIT_NAME / SHIPPDF_GIT_EMAIL for a different work identity.
-   Existing signing settings are preserved; SSH/GPG signing is not enabled or
-   copied from your Mac automatically.
-
-   Existing matching checkouts are reused without pull/reset/clean or changing
-   their origin URL. Local work and branches remain intact. An occupied path
-   that is not the expected repository stops setup for manual inspection.
-
-8. GitHub CLI (gh) is installed by default in ~/.local/bin from its official
-   binary release, verified against the published SHA-256 digest. Existing gh
-   installations are kept. Use --skip-gh to omit this step.
-
-    gh --version
+Git SSH access and gh API login are separate. Authenticate native tools as needed:
     gh auth login
+    claude
+    codex
 
-   GitHub CLI API authentication is separate from Git's SSH key authentication.
-   Authenticate for the account/organization permissions you need. Tokens and
-   credentials from your Mac are not copied by bootstrap.
+DOCKER AND FISH
 
-REX REMOTE ACCESS
+shulhi is declared a member of docker. This grants root-equivalent access.
+Reconnect after first setup to refresh groups, or use newgrp docker in an
+existing terminal. Existing supplementary groups are preserved.
 
-The script installs Superlogical Rex through its official installer. It does not
-use the unrelated Debian/Ubuntu package with the same name from the distro repo.
-When available, it enables the packaged personal user socket and enables linger
-for your account so its user services survive logout. With an older Rex package,
-the script prints a manual personal-server start command instead.
+Fish reads mise shims in non-interactive sessions and activates mise
+interactively through the Fish dotfiles. Verify from a fresh SSH session:
+    node --version
+    npm --version
+    gh --version
+    docker info
 
-For a simple personal Rex connection using built-in Tailscale:
+TAILSCALE, REX, AND PORTSIDE
 
-    rex server status
+The host tailscaled service is installed, enabled, and started. Join interactively:
+    sudo tailscale up
 
-If no server is running yet:
+Use the same account as your Mac/phone and an untagged host device. Existing
+Tailscale identity is retained. Rex's embedded Tailscale node is separate and
+does not replace the host Tailscale client Portside needs.
 
-    rex server start --tailscale --tailscale-hostname "$(hostname -s)-rex"
+Rex's user drop-in runs:
+    /usr/bin/rex server run --log-format text --tailscale --tailscale-hostname <hostname>-rex
 
-If a personal server is already running, the --tailscale option cannot modify it.
-Before creating sessions, stop it and restart it with the options above:
+The personal Rex socket is enabled. Existing running Rex sessions are left
+running during migration. For first-time remote setup:
+    systemctl --user enable --now rex.service
+    journalctl --user -u rex.service -f
 
-    rex server stop
-    rex server start --tailscale --tailscale-hostname "$(hostname -s)-rex"
+Authorize the embedded node from the URL in its log when required. Do not stop
+or restart Rex casually while it owns active terminals.
 
-Stopping Rex ends its sessions, so only do this when there is nothing to preserve.
-Read the sign-in URL with rex server status. The tailnet needs MagicDNS and HTTPS
-certificates enabled. Add the resulting https://<name>.<tailnet>.ts.net address
-in the Rex app on your Mac. Rex's built-in Tailscale creates a separate device
-from the host's regular tailscaled connection. These manually supplied server
-options are not configured as a persistent service by this bootstrap script;
-restart with those options after a reboot, or use the documented service setup.
+Only Portside's Rust SERVER is built with cargo build --release --locked.
+Its checkout is ~/Dev/portside; the executable is ~/portside-server.
+Mise manages the persistent user service dev.mise.portside.service:
+    systemctl --user status dev.mise.portside
+    journalctl --user -u dev.mise.portside -n 30 --no-pager
+    mise -C ~/.dotfiles/server run portside
 
-For using the host's existing Tailscale identity instead, the official remote
-access guide covers Tailscale Serve, a tailnet listener, and SSH forwarding:
+The service resolves the host Tailscale IPv4 address at startup and listens on
+port 9417. It retries after failures. If initial host login takes a while:
+    systemctl --user reset-failed dev.mise.portside
+    systemctl --user restart dev.mise.portside
 
-    https://www.superlogical.com/rex/docs/linux/remote-access
+Portside itself enforces the connecting device's Tailscale owner identity.
+No Tailscale Serve/Funnel or public listener is configured. In the Portside
+client, enter shipyard.taildaac1.ts.net and port 9417 (for shipyard), or the new
+host's Tailscale IPv4/MagicDNS name. The default target policy allows loopback
+ports 1024-65535, excluding its listener. Tailnet ACLs/grants also apply.
 
-The bootstrap itself leaves Rex listening locally. It does not add anonymous
-listeners, alter firewall rules, or turn on Tailscale SSH.
+Uploads go to ~/PortsideUploads. Existing PORTSIDE_LISTEN/PORTSIDE_UPLOAD_DIR
+overrides in ~/.config/portside/server.env are retained. This file is sourced as
+the service user; keep it private and do not put untrusted shell code there.
+Remove PORTSIDE_LISTEN to resolve the Tailscale IP dynamically on each start.
 
-YOUR CONFIGURATION
+Lingering is enabled for shulhi so Portside and Rex can survive logout and boot.
+Migration disables the old portside.service after the build, handing its listener
+to mise. Its old unit is retained so it can be restored manually if needed.
 
-Observed on your Mac:
+BACKUPS AND MIGRATION
 
-    ~/.config/nvim             -> ~/.dotfiles/vim/nvim
-    ~/.config/fish/config.fish -> ~/.dotfiles/fish/config.fish
-    ~/.config/starship.toml    -> ~/.dotfiles/starship2.toml
-    ~/.config/rex             -> ~/.dotfiles/rex
-
-The script reproduces the first three links. Neovim currently uses newer native
-LSP APIs and nvim-treesitter's main branch; the script requires Neovim >= 0.12
-and tree-sitter CLI >= 0.26.1. It installs upstream releases as needed instead
-of relying on older distro Neovim/fzf packages. GitHub binary assets must have
-a published SHA-256 digest and are verified before extraction.
-
-Your Fish aliases/integration also need eza, fzf, and ripgrep. The installer adds
-those, plus fd, lazygit, and a C compiler for Neovim parsers. It generates the
-en_US.UTF-8 locale expected by your Fish configuration. It restores plugins with
-Lazy restore using your lazy-lock.json, then installs your configured parsers.
-
-Your Mac Rex config unconditionally loads a local Portside integration from
-/Users/shulhi/Dev/portside and references Mac application paths. The server does
-not load that file. If you later add ~/.dotfiles/rex/init.linux.lua, the script
-links that file as ~/.config/rex/init.lua. Your Mac client shortcuts remain in
-the config on your Mac.
-
-Git name/email are filled only if missing, using your current author identity.
-SSH signing keys, credentials, history, and Tailscale state are not transferred.
-Node.js/npm are managed through mise. Other language toolchains and LSP servers
-(OCaml, Elixir, Haskell, Rust, TypeScript, ReScript) are project-specific and not
-installed. Install what you need through your usual language manager or :Mason.
-Terminal fonts belong on your Mac client.
-
-DOTFILES TRANSFER
-
-Default clone URL: https://github.com/shulhi/dotfiles.git
-An existing ~/.dotfiles directory is used as-is: no git pull/reset/clean.
-
-At inspection time your local master was TWO COMMITS AHEAD of origin/master,
-and rex/init.lua also had an uncommitted change. A fresh GitHub clone will not
-contain changes that have not been pushed. Review and push the commits before
-bootstrapping if you want GitHub to be the source of truth, or transfer the
-checkout/configs to ~/.dotfiles on the server before running the script.
-
-For a private repository, authenticate Git first or pre-clone it over SSH:
-
-    git clone git@github.com:shulhi/dotfiles.git ~/.dotfiles
-    bash ~/bootstrap-server.sh
-
-Alternatively:
-
-    DOTFILES_REPO=git@github.com:shulhi/dotfiles.git bash ~/bootstrap-server.sh
-
-SSH authentication must already work; the script does not copy private keys.
-
-OPTIONS AND REPEAT RUNS
-
-    bash ~/bootstrap-server.sh --help
-    bash ~/bootstrap-server.sh --skip-docker --skip-rex
-    bash ~/bootstrap-server.sh --skip-plugins --no-chsh
-    NVIM_VERSION=v0.12.6 bash ~/bootstrap-server.sh
-    REX_CHANNEL=snapshot bash ~/bootstrap-server.sh
-
-Existing working CLI tools are kept, except an explicitly requested Neovim tag
-is installed again. Distro packages may be upgraded when apt install runs.
-Docker uses its official apt repository. Tailscale uses its official installer
-when missing. Starship uses its verified upstream binary release. Rex uses its
-official installer on each run,
-which may update Rex; set REX_CHANNEL to retain a specific nondefault channel.
-This is a bootstrap, not a frozen lockfile for every system package.
-
-Conflicting managed config files/directories are moved, never deleted, under:
-
+Old standalone tool binaries are moved from ~/.local/bin to:
     ~/.local/state/server-bootstrap/backups/<timestamp>-<pid>/
 
-To restore a config, remove its new symlink and move the corresponding saved
-file/directory back into place. Existing matching symlinks are left alone.
-If Docker's conflicting distro packages are already installed, the script stops
-with their names so you can resolve them or rerun with --skip-docker.
+They no longer shadow mise's selected versions. Native Claude/Codex remain in
+~/.local/bin. Existing Neovim data and plugin directories are retained.
 
-Official installation references:
-    https://neovim.io/doc/install/
-    https://github.com/nvim-treesitter/nvim-treesitter
-    https://starship.rs/guide/
-    https://docs.docker.com/engine/install/ubuntu/
-    https://docs.docker.com/engine/install/debian/
-    https://tailscale.com/docs/install/linux
-    https://www.superlogical.com/rex/docs/linux/installation
-    https://code.claude.com/docs/en/setup
-    https://learn.chatgpt.com/docs/codex/cli
-    https://mise.jdx.dev/getting-started
-    https://mise.jdx.dev/installing-mise.html
-    https://github.com/cli/cli/blob/trunk/docs/install_linux.md
+The three old vendor apt definitions are backed up before mise adopts them:
+docker.sources/docker.list, tailscale.list, and rex.sources. Unexpected source
+URLs stop the migration. mise writes mise-*.sources with fingerprint-checked
+inline signing keys, avoiding conflicting Signed-By definitions.
+Conflicting managed dotfile links/configs are also backed up before deployment.
 
-VALIDATION
+The sudo policy and authorized_keys are not managed by this configuration.
+Dropping a declaration leaves the installed resource in place; use explicit
+mise removal state only when you intend to remove it.
 
-Passed Bash syntax checks, ShellCheck, and a disposable Ubuntu 24.04 ARM64 test:
-real binary downloads and SHA-256 verification; Fish configuration; original
-file backups; repeated config linking; preservation of existing Git identity;
-Neovim plugin restoration and parser installation; and repeat CLI installation.
-Docker, Compose, Buildx, Tailscale, and Superlogical Rex installed successfully
-from their vendor sources. Service operations were explicitly stubbed because
-the test container does not run systemd. Live daemon startup, Tailscale login,
-and remote Rex connections still need the actual server. Debian and x86-64
-were not run through the same container test.
+VALIDATION AND REFERENCES
 
-The Claude Code / Codex additions were also installed and tested as shulhi on
-shipyard (Ubuntu 26.04 x86-64): Claude Code 2.1.319 and Codex CLI 0.167.0.
-Both resolved through ~/.local/bin, and repeating the AI CLI install step made
-no downloads. Account sign-in remains a separate interactive step.
+The full mise bootstrap passed on shipyard (Ubuntu 26.04 x86-64), including
+native AI CLI checks and pinned Neovim plugin/parser restoration. A second run
+with --skip task preserved configuration hashes and both Portside/Rex process
+IDs. mise bootstrap plan reported 31 unchanged resources, zero changes and no
+unknown state. Fresh Fish SSH sessions selected mise shims for the managed
+tools, and Docker worked without sudo. Lock metadata covers Linux x86-64 and
+ARM64; Debian and ARM64 were not runtime-tested during this migration.
 
-The mise / Node.js addition was verified on shipyard: mise 2026.11.4 selected
-Node.js 26.13.0 (LTS) with npm 11.20.0. Repeating the step preserved both the
-pinned global mise config and Fish setup. Node/npm worked in fresh interactive
-Fish sessions and non-interactive SSH commands; the dotfiles stayed clean.
+Portside 0.3.0 was built on shipyard with Rust 1.99.1. Authenticated /v1/info
+and a real Mac -> Tailscale -> Portside WebSocket -> loopback HTTP forwarding
+check passed. Its existing client_half_close_preserves_the_response test fails
+repeatedly on this host while waiting for the final WebSocket close; response
+bytes and EOF are received first. Other unit, CLI, tunnel, and upload tests pass.
+The setup migration does not modify Portside source code to mask that failure.
 
-The ShipPDF setup was verified on shipyard: both private repositories cloned
-successfully on main using the existing id_ed25519_github key. Git author and
-SSH settings resolved from the ShipPDF-only include. A second run preserved
-both clean checkouts and produced no Git configuration changes. Local safety
-checks also confirmed that existing local work is preserved and mismatched
-origins or non-repository destination folders are refused.
-
-GitHub CLI 2.103.3 was installed and verified for shulhi on shipyard; repeating
-the install step did not download it again. API authentication uses gh auth login.
-The bootstrap also manages the GitHub host entry in ~/.ssh/config when an
-existing GitHub identity is selected. Direct GitHub SSH authentication and
-both ShipPDF repository reads succeeded without an explicit -i argument.
-SSH configuration tests verified preservation of unrelated host settings and
-stable output on repeat runs.
+    https://mise.jdx.dev/bootstrap.html
+    https://mise.jdx.dev/bootstrap/packages/apt.html
+    https://mise.jdx.dev/bootstrap/services.html
+    https://mise.jdx.dev/bootstrap/repos.html
+    https://github.com/shulhi/portside/tree/main/server
