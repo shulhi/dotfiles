@@ -20,7 +20,7 @@ The desired state is in ~/.dotfiles/server/mise.toml:
   * apt packages, official Docker/Tailscale/Rex sources and signing fingerprints;
   * Docker group membership for shulhi; Fish as the login shell;
   * mise-managed, pinned Node.js, Rust, Neovim, fzf, eza, lazygit, tree-sitter,
-    Starship, and GitHub CLI;
+    Starship, GitHub CLI, and 1Password CLI (op);
   * Neovim/Fish/Starship dotfile links and global mise tool selection;
   * the two ShipPDF repositories and Portside checkout;
   * system Docker/Tailscale services, Rex's personal socket and --tailscale
@@ -101,6 +101,13 @@ Git SSH access and gh API login are separate. Authenticate native tools as neede
     gh auth login
     claude
     codex
+
+1Password CLI (op) is installed through mise and pinned in op_version:
+    op --version
+
+Its account sign-in is separate from installation. No 1Password credentials,
+sessions, service account tokens, or vault contents are copied by bootstrap.
+See https://developer.1password.com/docs/cli/sign-in-manually/ for server sign-in.
 
 DOCKER AND FISH
 

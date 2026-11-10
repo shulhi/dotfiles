@@ -12,6 +12,7 @@ lazygit_version = "0.66.3"
 treesitter_version = "0.27.2"
 starship_version = "1.27.0"
 gh_version = "2.103.3"
+op_version = "2.42.0"
 
 [tools]
 node = "{{ vars.node_version }}"
@@ -23,6 +24,7 @@ rust = "{{ vars.rust_version }}"
 "aqua:tree-sitter/tree-sitter" = "{{ vars.treesitter_version }}"
 "aqua:starship/starship" = "{{ vars.starship_version }}"
 "aqua:cli/cli" = "{{ vars.gh_version }}"
+"aqua:1password/cli" = "{{ vars.op_version }}"
 
 [bootstrap.packages]
 "apt:ca-certificates" = "latest"

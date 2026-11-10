@@ -2,6 +2,19 @@
 
 lockfile_version = 4
 
+[[tools."aqua:1password/cli"]]
+version = "2.42.0"
+backend = "aqua:1password/cli"
+specifiers = ["2.42.0"]
+
+[tools."aqua:1password/cli"."platforms.linux-arm64"]
+checksum = "sha256:e56c379fabafb393ce699258e484694abe464870fb41f35ce1b5c3f17868ba61"
+url = "https://cache.agilebits.com/dist/1P/op2/pkg/v2.42.0/op_linux_arm64_v2.42.0.zip"
+
+[tools."aqua:1password/cli"."platforms.linux-x64"]
+checksum = "sha256:261fe3844a43e7e83a3d85e8a9f36411729436a1d3add1dc7dd46cbbceebe9e5"
+url = "https://cache.agilebits.com/dist/1P/op2/pkg/v2.42.0/op_linux_amd64_v2.42.0.zip"
+
 [[tools."aqua:cli/cli"]]
 version = "2.103.3"
 backend = "aqua:cli/cli"

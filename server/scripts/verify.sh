@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 source "$(dirname -- "${BASH_SOURCE[0]}")/common.sh"
-for tool in nvim fzf eza lazygit tree-sitter starship gh node npm rustc cargo; do
+for tool in nvim fzf eza lazygit tree-sitter starship gh op node npm rustc cargo; do
   "$tool" --version
 done
 fish --no-execute "$CONFIG_DIR/fish/config.fish"
