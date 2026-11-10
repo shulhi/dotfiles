@@ -134,6 +134,11 @@ url = "https://github.com/tree-sitter/tree-sitter/releases/download/v0.27.2/tree
 url_api = "https://api.github.com/repos/tree-sitter/tree-sitter/releases/assets/720450853"
 provenance = "github-attestations"
 
+[[tools."gem:kamal"]]
+version = "2.12.0"
+backend = "gem:kamal"
+specifiers = ["2.12.0"]
+
 [[tools.node]]
 version = "26.13.0"
 backend = "core:node"
@@ -146,6 +151,27 @@ url = "https://nodejs.org/dist/v26.13.0/node-v26.13.0-linux-arm64.tar.gz"
 [tools.node."platforms.linux-x64"]
 checksum = "sha256:5848553868b402d3fabb5b09270649977780a390f832155721025a08b5104455"
 url = "https://nodejs.org/dist/v26.13.0/node-v26.13.0-linux-x64.tar.gz"
+
+[[tools.ruby]]
+version = "3.4.12"
+backend = "core:ruby"
+specifiers = ["3.4.12"]
+
+[tools.ruby.options]
+compile = "false"
+precompiled_url = "jdx/ruby"
+ruby_build_repo = "https://github.com/rbenv/ruby-build.git"
+ruby_install = "false"
+
+[tools.ruby."platforms.linux-arm64"]
+checksum = "sha256:c098862e9416148e0d5c8851ce222323ef93c23d6176e12ab5c0effc06268f49"
+url = "https://github.com/jdx/ruby/releases/download/3.4.12-1/ruby-3.4.12.arm64_linux.tar.gz"
+provenance = "github-attestations"
+
+[tools.ruby."platforms.linux-x64"]
+checksum = "sha256:12bbaa27dd857892daa21d5c57e1a48908c37b03540388474cf96974d03770d1"
+url = "https://github.com/jdx/ruby/releases/download/3.4.12-1/ruby-3.4.12.x86_64_linux.tar.gz"
+provenance = "github-attestations"
 
 [[tools.rust]]
 version = "1.99.1"

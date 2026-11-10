@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 source "$(dirname -- "${BASH_SOURCE[0]}")/common.sh"
-for tool in nvim fzf eza lazygit tree-sitter starship gh op node npm rustc cargo; do
+for tool in nvim fzf eza lazygit tree-sitter starship gh op node npm rustc cargo ruby gem; do
   "$tool" --version
 done
+kamal version
 fish --no-execute "$CONFIG_DIR/fish/config.fish"
 sudo docker info >/dev/null
 docker compose version

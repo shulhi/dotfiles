@@ -2,6 +2,8 @@
 [tools]
 node = "{{ vars.node_version }}"
 rust = "{{ vars.rust_version }}"
+ruby = "{{ vars.ruby_version }}"
+"gem:kamal" = "{{ vars.kamal_version }}"
 "aqua:neovim/neovim" = "{{ vars.nvim_version }}"
 "aqua:junegunn/fzf" = "{{ vars.fzf_version }}"
 "aqua:eza-community/eza" = "{{ vars.eza_version }}"

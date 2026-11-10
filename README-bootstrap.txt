@@ -20,7 +20,7 @@ The desired state is in ~/.dotfiles/server/mise.toml:
   * apt packages, official Docker/Tailscale/Rex sources and signing fingerprints;
   * Docker group membership for shulhi; Fish as the login shell;
   * mise-managed, pinned Node.js, Rust, Neovim, fzf, eza, lazygit, tree-sitter,
-    Starship, GitHub CLI, and 1Password CLI (op);
+    Starship, GitHub CLI, 1Password CLI (op), Ruby, and Kamal;
   * Neovim/Fish/Starship dotfile links and global mise tool selection;
   * the two ShipPDF repositories and Portside checkout;
   * system Docker/Tailscale services, Rex's personal socket and --tailscale
@@ -108,6 +108,23 @@ Git SSH access and gh API login are separate. Authenticate native tools as neede
 Its account sign-in is separate from installation. No 1Password credentials,
 sessions, service account tokens, or vault contents are copied by bootstrap.
 See https://developer.1password.com/docs/cli/sign-in-manually/ for server sign-in.
+
+KAMAL
+
+Kamal is installed with mise's gem backend using the mise-managed Ruby runtime.
+ruby_version and kamal_version in server/mise.toml pin both releases.
+Kamal and its gem dependencies are isolated from application Bundler installs:
+    ruby --version
+    kamal version
+
+Docker Engine, Buildx, and Compose are already included in the server setup.
+Kamal's application configuration, SSH targets, and registry credentials stay
+with each application. Installing the CLI does not deploy or change any app.
+After changing Ruby's minor version, reinstall Kamal for that runtime:
+    mise -C ~/.dotfiles/server install --force gem:kamal
+
+    https://kamal-deploy.org/docs/installation/
+    https://mise.jdx.dev/dev-tools/backends/gem.html
 
 DOCKER AND FISH
 
