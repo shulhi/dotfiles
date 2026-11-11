@@ -45,6 +45,9 @@ if status is-interactive
     alias git-graph-all "git log --graph --decorate --all"
     alias grep-src "grep -nIEr --color=ALWAYS"
     alias vim nvim
+# mise: shims work in non-interactive shells too (e.g. MCP servers spawned by Claude Code)
+type -q mise; and mise activate fish --shims | source
+
     alias vimdiff "nvim -d"
 
     alias plow "cd ~/Plow/all"
@@ -61,7 +64,6 @@ if status is-interactive
 
     type -q fzf; and fzf --fish | source
     type -q starship; and starship init fish | source
-    type -q mise; and mise activate fish | source
 end
 
 function fish_user_key_bindings
