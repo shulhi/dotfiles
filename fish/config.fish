@@ -38,6 +38,9 @@ fish_add_path -gm $ASDF_DATA_DIR/shims
 # opam
 test -r ~/.opam/opam-init/init.fish; and source ~/.opam/opam-init/init.fish >/dev/null 2>/dev/null; or true
 
+# mise: shims work in non-interactive shells too (e.g. MCP servers spawned by Claude Code)
+type -q mise; and mise activate fish --shims | source
+
 if status is-interactive
     set -g fish_greeting
 
@@ -45,9 +48,6 @@ if status is-interactive
     alias git-graph-all "git log --graph --decorate --all"
     alias grep-src "grep -nIEr --color=ALWAYS"
     alias vim nvim
-# mise: shims work in non-interactive shells too (e.g. MCP servers spawned by Claude Code)
-type -q mise; and mise activate fish --shims | source
-
     alias vimdiff "nvim -d"
 
     alias plow "cd ~/Plow/all"
