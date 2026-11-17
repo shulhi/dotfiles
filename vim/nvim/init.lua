@@ -41,6 +41,23 @@ opt.autoread = true
 
 opt.clipboard = "unnamedplus"
 
+-- ┌───────────────────┐
+-- │ Clipboard for Rex │
+-- └───────────────────┘
+
+-- Copy to the clipboard of the machine you are typing on.
+-- Rex forwards OSC 52 writes from the pane to the client, so gy ("+y)
+-- reaches the client's clipboard even when nvim runs on another host.
+-- Pasting stays on pbcopy/pbpaste: Rex does not answer OSC 52 queries.
+if vim.env.TERM_PROGRAM == 'rex' then
+  local osc52 = require('vim.ui.clipboard.osc52')
+  vim.g.clipboard = {
+    name = 'rex-osc52-copy',
+    copy = { ['+'] = osc52.copy('+'), ['*'] = osc52.copy('*') },
+    paste = { ['+'] = { 'pbpaste' }, ['*'] = { 'pbpaste' } },
+  }
+end
+
 vim.g.mapleader = " "
 
 vim.api.nvim_set_keymap("n", ";", ":", { noremap = true })
